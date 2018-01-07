@@ -1,0 +1,20 @@
+package ${pkgPath};
+
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+import ${modelPath};
+
+public class ${clzName}Validator implements Validator {
+
+	@SuppressWarnings("unchecked")
+	public boolean supports(Class clazz) {
+		return ${clzName}.class.isAssignableFrom(clazz);
+	}
+
+	public void validate(Object obj, Errors errors) {
+		//TODO
+		//ValidationUtils.rejectIfEmpty(errors, "name", "NAME_REQUIRED", "123");
+	}
+
+}
+

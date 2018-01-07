@@ -1,0 +1,57 @@
+package ${pkgPath};
+
+import java.util.List;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
+import com.jerry.commons.utils.Page;
+
+import ${daoPath};
+import ${responsePath};
+import ${formPath};
+import ${modelPath};
+import ${conditionPath};
+import ${servicePath};
+
+
+@Service
+public class ${clzName}ServiceImpl implements ${clzName}Service {
+
+	@Resource
+    private ${clzName}Mapper ${clzNameLC}Mapper;
+	/**
+	 * 查询列表
+	 */
+	public List<${clzName}Response> find${clzName}ByPage(Page<?> page){
+		return ${clzNameLC}Mapper.find${clzName}ByPage(page);
+	}
+	
+	/**
+	 * 单个查询
+	 */
+	public ${clzName} getById(${clzName}SearchCondition condition){
+		return ${clzNameLC}Mapper.getById${clzName}(condition);
+	}
+	
+	/**
+	 * 新增
+	 */
+	public int save(${clzName}Form ${clzNameLC}){
+		return  ${clzNameLC}Mapper.save(${clzNameLC});
+	}
+	 /**
+	 * 修改
+	 */
+	public int update(${clzName}Form ${clzNameLC}){
+		return ${clzNameLC}Mapper.update(${clzNameLC});
+	}
+	 /**
+	 * 删除
+	 */
+	public int deleteByIds(String[] ids){
+		return ${clzNameLC}Mapper.deleteByIds(ids);
+	}
+}

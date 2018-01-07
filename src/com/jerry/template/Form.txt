@@ -1,0 +1,9 @@
+package ${pkgPath};
+
+import lombok.Data;
+@Data
+public class ${clzName}Form {
+	private String ${parserKey};
+	${fieldsDeclareInfo}
+	
+}

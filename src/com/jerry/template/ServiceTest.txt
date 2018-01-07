@@ -1,0 +1,14 @@
+package ${pkgPath};
+
+
+import cn.sccl.common.BaseTestCase;
+
+public class ${clzName}ServiceTest extends BaseTestCase {
+	private ${clzName}Service service;
+	
+	public void setUp() throws Exception{
+		super.setUp();
+		Service=(${clzName}Service)ctx.getBean("${clzNameLC}Service");
+	}
+	
+}

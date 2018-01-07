@@ -1,0 +1,8 @@
+package ${pkgPath};
+
+import lombok.Data;
+
+@Data
+public class ${clzName}SearchCondition {
+	private String ${parserKey};
+}

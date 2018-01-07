@@ -1,0 +1,8 @@
+package ${pkgPath};
+import lombok.Data;
+
+@Data
+public class ${clzName}Response {
+	private String ${parserKey};
+	${fieldsDeclareInfo}
+}

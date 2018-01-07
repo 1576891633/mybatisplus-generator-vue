@@ -1,0 +1,68 @@
+package ${pkgPath};
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.jerry.commons.utils.Page;
+import com.alibaba.fastjson.JSONObject;
+
+import ${modelPath};
+import ${formPath};
+import ${responsePath};
+import ${servicePath};
+import ${conditionPath};
+
+@Controller
+@RequestMapping("/${clzNameLC}")
+public class ${clzName}Controller{
+	
+	@Autowired
+	${clzName}Service ${clzNameLC}Service;
+	
+	@RequestMapping(value = ("/list"), method = RequestMethod.GET)
+	public ModelAndView list(HttpServletRequest request) {
+		return new ModelAndView("${clzNameLC}/list");
+	}
+	
+	@RequestMapping(value = ("/find${clzName}List"), method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject find${clzName}List(HttpServletRequest request,@ModelAttribute ${clzName}SearchCondition condition,Page<?> page) {
+		return ${clzNameLC}Service.find${clzName}ByPage(page);
+	}
+	
+	@RequestMapping(value = ("/toAdd"), method = RequestMethod.GET)
+	public ModelAndView toAdd(${clzName}SearchCondition condition){
+		ModelAndView model = new ModelAndView("${clzNameLC}/edit");
+		model.addObject("${clzNameLC}", ${clzNameLC}Service.getById(condition));//设置ID
+		return model;
+	}
+	
+	@RequestMapping(value = ("/add${clzName}"), method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject add${clzName}(${clzName}Form ${clzNameLC}) throws Exception {
+		return ${clzNameLC}Service.save(${clzNameLC});
+	}
+	
+	@RequestMapping(value = "/update${clzName}", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject update${clzName}(${clzName}Form ${clzNameLC}Form) {
+		return ${clzNameLC}Service.update(${clzNameLC}Form)
+	}
+
+	@RequestMapping(value = ("/delete${clzName}") , method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject delete${clzName}(String[] ids) throws Exception {
+		return ${clzNameLC}Service.deleteByIds(ids);
+	}
+}

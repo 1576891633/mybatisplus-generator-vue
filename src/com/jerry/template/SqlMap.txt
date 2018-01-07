@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${pkgPath}.${clzName}Mapper">
+	<resultMap id="BaseResultMap" type="${clzNameLC}">
+		${resultMap}
+	</resultMap>
+
+	<sql id="tableNameSql">
+		${tblName}
+	</sql>
+
+	<sql id="commonSelectColumnsPrefix">
+		${columns}
+	</sql>
+	
+	<sql id="commonSelectColumnsPrefixAliase">
+		${selectStatement}
+	</sql>
+	
+	<sql id="conditionOnlyId">
+		${primaryKey} = #{${parserKey}}
+	</sql>
+
+	<sql id="mainSql">
+		SELECT
+		<include refid="commonSelectColumnsPrefixAliase" />
+		FROM
+		<include refid="tableNameSql" />
+		p
+	</sql>
+	
+	<sql id="mainSqlAliase">
+		SELECT
+		<include refid="commonSelectColumnsPrefixAliase" />
+		FROM
+		<include refid="tableNameSql" />
+		p
+	</sql>
+
+	<sql id="varSql">
+		${otherCondition}
+	</sql>
+
+	
+	<select id="findPageBy" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="mainSql" />
+		<include refid="varSql" />		
+		<if test="SORT != null and SORT != ''">
+			order by ${SORT}
+			<if test="DIR != null and DIR != ''">
+				${DIR}
+			</if>
+		</if>
+	</select>
+
+	<select id="getById" parameterType="${parserKeyType}" resultMap="BaseResultMap">
+		<include refid="mainSql" />
+		where
+		<include refid="conditionOnlyId" />
+	</select>
+
+	<select id="getCountBy" parameterType="java.util.Map"
+		resultType="INTEGER">
+		SELECT
+		COUNT(*) AS C
+		FROM
+		<include refid="tableNameSql" />
+		p
+		<include refid="varSql" />
+	</select>
+
+	<select id="findListBy" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="mainSqlAliase" />
+		<include refid="varSql" />
+	</select>
+
+	<insert id="save" parameterType="${clzName}" keyProperty="${parserKey}">
+		insert into
+		<include refid="tableNameSql" />
+		(
+		<include refid="commonSelectColumnsPrefix" />
+		)
+		${insertStatement}
+	</insert>
+
+	<update id="update" parameterType="${clzName}">
+		update
+		<include refid="tableNameSql" />
+		${updateStatement}
+ 	</update>
+
+	<update id="deleteByIds" parameterType="Object[]">
+		update
+		<include refid="tableNameSql" />
+		set  DATA_STS = '0'
+		where ${primaryKey} in
+		<foreach index="index" item="item" collection="array"
+			separator="," open="(" close=")">#{item}</foreach>
+	</update>
+	
+	<delete id="deleteById" parameterType="Object">
+		delete from
+		<include refid="tableNameSql" />
+		where
+		<include refid="conditionOnlyId" />
+	</delete>
+
+	<select id="getByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		<include refid="mainSql" /> 
+		where
+		username = #{parameter,jdbcType=VARCHAR}
+    </select>
+  
+    <select id="find${clzName}ByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="mainSqlAliase" />
+		<include refid="varSql" />		
+		<if test="SORT != null and SORT != ''">
+			order by ${SORT}
+			<if test="DIR != null and DIR != ''">
+				${DIR}
+			</if>
+		</if>
+	</select>
+	
+	<update id="updateisEnabled">
+		update
+		<include refid="tableNameSql" />
+		set  IS_ENABLED = #{isEnabled,jdbcType=VARCHAR}
+		where COLLEGE_ID in
+		<foreach index="index" item="item" collection="array"
+			separator="," open="(" close=")">#{item}</foreach>
+  	</update>
+	
+</mapper>

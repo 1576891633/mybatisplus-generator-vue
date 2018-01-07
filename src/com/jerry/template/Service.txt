@@ -1,0 +1,35 @@
+package ${pkgPath};
+
+import java.util.List;
+
+import ${responsePath};
+import ${formPath};
+import ${modelPath};
+import ${conditionPath};
+
+
+public interface ${clzName}Service {
+
+	/**
+	 * 查询列表
+	 */
+	public List<${clzName}Response> find${clzName}ByPage(Page<?> page);
+	
+	/**
+	 * 单个查询
+	 */
+	public ${clzName} getById(${clzName}SearchCondition condition);
+	
+	/**
+	 * 新增
+	 */
+	public int save(${clzName}Form ${clzNameLC});
+	 /**
+	 * 修改
+	 */
+	public int update(${clzName}Form ${clzNameLC});
+	 /**
+	 * 删除
+	 */
+	public int deleteByIds(String[] ids);
+}
