@@ -23,7 +23,7 @@
 
 	<sql id="mainSql">
 		SELECT
-		<include refid="commonSelectColumnsPrefixAliase" />
+		<include refid="commonSelectColumnsPrefix" />
 		FROM
 		<include refid="tableNameSql" />
 		p
@@ -41,40 +41,14 @@
 		${otherCondition}
 	</sql>
 
-	
-	<select id="findPageBy" parameterType="java.util.Map" resultMap="BaseResultMap">
-		<include refid="mainSql" />
-		<include refid="varSql" />		
-		<if test="SORT != null and SORT != ''">
-			order by ${SORT}
-			<if test="DIR != null and DIR != ''">
-				${DIR}
-			</if>
-		</if>
-	</select>
-
-	<select id="getById" parameterType="${parserKeyType}" resultMap="BaseResultMap">
+	<select id="getById" parameterType="${parserKeyFullType}" resultMap="BaseResultMap">
 		<include refid="mainSql" />
 		where
 		<include refid="conditionOnlyId" />
 	</select>
 
-	<select id="getCountBy" parameterType="java.util.Map"
-		resultType="INTEGER">
-		SELECT
-		COUNT(*) AS C
-		FROM
-		<include refid="tableNameSql" />
-		p
-		<include refid="varSql" />
-	</select>
 
-	<select id="findListBy" parameterType="java.util.Map" resultMap="BaseResultMap">
-		<include refid="mainSqlAliase" />
-		<include refid="varSql" />
-	</select>
-
-	<insert id="save" parameterType="${clzName}" keyProperty="${parserKey}">
+	<insert id="save" parameterType="${clzNameLC}" keyProperty="${parserKey}">
 		insert into
 		<include refid="tableNameSql" />
 		(
@@ -83,7 +57,7 @@
 		${insertStatement}
 	</insert>
 
-	<update id="update" parameterType="${clzName}">
+	<update id="update" parameterType="${clzNameLC}">
 		update
 		<include refid="tableNameSql" />
 		${updateStatement}
@@ -97,38 +71,10 @@
 		<foreach index="index" item="item" collection="array"
 			separator="," open="(" close=")">#{item}</foreach>
 	</update>
-	
-	<delete id="deleteById" parameterType="Object">
-		delete from
-		<include refid="tableNameSql" />
-		where
-		<include refid="conditionOnlyId" />
-	</delete>
 
-	<select id="getByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
-		<include refid="mainSql" /> 
-		where
-		username = #{parameter,jdbcType=VARCHAR}
-    </select>
-  
-    <select id="find${clzName}ByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
-		<include refid="mainSqlAliase" />
-		<include refid="varSql" />		
-		<if test="SORT != null and SORT != ''">
-			order by ${SORT}
-			<if test="DIR != null and DIR != ''">
-				${DIR}
-			</if>
-		</if>
-	</select>
-	
-	<update id="updateisEnabled">
-		update
-		<include refid="tableNameSql" />
-		set  IS_ENABLED = #{isEnabled,jdbcType=VARCHAR}
-		where COLLEGE_ID in
-		<foreach index="index" item="item" collection="array"
-			separator="," open="(" close=")">#{item}</foreach>
-  	</update>
-	
+	<select id="findAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+            <include refid="mainSql" />
+            <include refid="varSql" />
+        </select>
+
 </mapper>

@@ -1,35 +1,49 @@
 package ${pkgPath};
 
-import java.util.List;
-
-import ${responsePath};
 import ${formPath};
 import ${modelPath};
-import ${conditionPath};
 
+import java.util.List;
 
 public interface ${clzName}Service {
 
-	/**
-	 * 查询列表
-	 */
-	public List<${clzName}Response> find${clzName}ByPage(Page<?> page);
-	
+    /**
+     * 分页查询
+     * @return
+     */
+    PageInfo findByPage(int page, int size,String sort,String dir,${formName} ${clzNameLC});
+
+    PageInfo findByPage(int page, int size,${formName} ${clzNameLC});
+
+    PageInfo findByPage(int page, int size,String sort,String dir);
+
+    PageInfo findByPage(int page, int size,String sort);
+
+    PageInfo findByPage(int page, int size);
+
+    /**
+     * 列表查询
+     * @return
+     */
+    List<${clzName}> findAll(${formName} ${clzNameLC});
+
 	/**
 	 * 单个查询
 	 */
-	public ${clzName} getById(${clzName}SearchCondition condition);
-	
+	${clzName} getById(${parserKeyType} ${parserKey});
+
 	/**
 	 * 新增
 	 */
-	public int save(${clzName}Form ${clzNameLC});
+	int save(${clzName} ${clzNameLC});
+
 	 /**
 	 * 修改
 	 */
-	public int update(${clzName}Form ${clzNameLC});
+	int update(${clzName} ${clzNameLC});
+
 	 /**
 	 * 删除
 	 */
-	public int deleteByIds(String[] ids);
+	int deleteByIds(String[] ids);
 }

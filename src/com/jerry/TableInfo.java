@@ -14,7 +14,8 @@ public class TableInfo {
 	private String name;
 	private String primaryKey;
 	private String parserKey;
-	private String primaryKeyType;
+	private String primaryKeyType = "Long";
+	private String primaryKeyFullType = "java.lang.Long";
 
 	private List<ColumnInfo> columns;
 	private List<FieldInfo> fields;
@@ -61,6 +62,14 @@ public class TableInfo {
 
 	public void setPrimaryKeyType(String primaryKeyType) {
 		this.primaryKeyType = primaryKeyType;
+	}
+
+	public String getPrimaryKeyFullType() {
+		return primaryKeyFullType;
+	}
+
+	public void setPrimaryKeyFullType(String primaryKeyFullType) {
+		this.primaryKeyFullType = primaryKeyFullType;
 	}
 
 	public void addColumn(ColumnInfo column) {
@@ -137,6 +146,61 @@ public class TableInfo {
 			sb.append(name).append(";}");
 			sb.append(ENDL).append(ENDL);
 		}
+		return sb.toString();
+	}
+
+	public String getToString(String clzName){
+		StringBuffer sb = new StringBuffer();
+		List<FieldInfo> cop =new ArrayList();
+		cop.add(new FieldInfo(primaryKeyType,primaryKey,"主键"));
+		cop.addAll(fields);
+		sb.append(TAB).append("@Override").append(ENDL);
+		sb.append(TAB).append("public String toString() {").append(ENDL);
+		sb.append(TAB2).append("return \""+clzName+"{ \"+ ").append(ENDL);
+		for (FieldInfo field : cop) {
+			String name = field.getName();
+			if (field.getName().equalsIgnoreCase(ID)){
+				sb.append(TAB3).append("\""+name+"=\"+").append(name+"+").append(ENDL);
+			}else {
+				sb.append(TAB3).append("\","+name+"=\'\"+").append(name+"+\"'\"").append("+").append(ENDL);
+			}
+		}
+		sb.append(TAB3).append("\"}\";").append(ENDL).append(TAB).append("}");
+		return sb.toString();
+	}
+
+	public String getFromTOModel(String clzName){
+		StringBuffer sb = new StringBuffer();
+		List<FieldInfo> cop =new ArrayList();
+		cop.add(new FieldInfo(primaryKeyType,primaryKey,"主键"));
+		cop.addAll(fields);
+		sb.append(TAB).append("public "+clzName+" to"+clzName+"() {").append(ENDL);
+		sb.append(TAB2).append(clzName+" model =new "+clzName+"();").append(ENDL);
+		for (FieldInfo field : cop) {
+			String name = field.getName();
+			String aCase = upperCase(name);
+			sb.append(TAB2).append("model.set"+aCase+"(this."+name+")").append(";").append(ENDL);
+		}
+		sb.append(TAB2).append("return model;").append(ENDL).append(TAB).append("}").append(ENDL);
+		return sb.toString();
+	}
+
+	public String getModelTOFrom(String clzName){
+		StringBuffer sb = new StringBuffer();
+		List<FieldInfo> cop =new ArrayList();
+		cop.add(new FieldInfo(primaryKeyType,primaryKey,"主键"));
+		cop.addAll(fields);
+		String lowerCase = clzName.toLowerCase();
+		sb.append(TAB).append("public "+SPACE+clzName+"DTO"+" (){}").append(ENDL).append(ENDL);
+
+		sb.append(TAB).append("public "+SPACE+clzName+"DTO"+" ("+clzName+" "+lowerCase+") {").append(ENDL);
+
+		for (FieldInfo field : cop) {
+			String name = field.getName();
+			String aCase = upperCase(name);
+			sb.append(TAB2).append("this."+name+" = "+lowerCase+".get"+aCase+"()").append(";").append(ENDL);
+		}
+		sb.append(TAB).append("}").append(ENDL);
 		return sb.toString();
 	}
 

@@ -1,38 +1,39 @@
 package ${pkgPath};
 
 import ${modelPath};
-import ${conditionPath};
-import java.util.Map;
-import java.util.List;
-import com.jerry.commons.utils.Page;
+import ${formPath};
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 
 @Repository
 public interface ${clzName}Mapper {
-	
-	/**
-	 * 查询列表
-	 */
-	public List<${clzName}> find${clzName}ByPage(Page<?> page);
-	
+
+    /**
+     * 列表查询
+     * @return
+     */
+    List<${clzName}> findAll(${formName} ${clzNameLC});
+
 	/**
 	 * 单个查询
 	 */
-	public ${clzName} getById(${parserKeyType} ${parserKey});
-	
+	${clzName} getById(${parserKeyType} ${parserKey});
+
 	/**
 	 * 新增
 	 */
-	public int save(${clzName} ${clzNameLC});
+	int save(${clzName} ${clzNameLC});
+
 	 /**
 	 * 修改
 	 */
-	public int update(${clzName} ${clzNameLC});
+	int update(${clzName} ${clzNameLC});
+
 	 /**
 	 * 删除
 	 */
-	public int deleteByIds(String[] ids);
-	 
+	int deleteByIds(String[] ids);
+
 }
 

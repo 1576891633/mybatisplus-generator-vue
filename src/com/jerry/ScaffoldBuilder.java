@@ -17,7 +17,8 @@ public class ScaffoldBuilder {
 	protected final static String PKG_PREFIX_WEB = "com.bison.";
 	protected final static String PKG_PREFIX_BUSINESS = "";
 	protected final static String PKG_SUFFIX_MODEL = "model.";
-	protected final static String PKG_SUFFIX_DAO = "repositories.";
+	protected final static String PKG_SUFFIX_FROMMODEL = "dto";
+	protected final static String PKG_SUFFIX_DAO = "dao.";
 	protected final static String PKG_SUFFIX_MANAGER = "service.";
 	protected final static String PKG_IMPL = "impl";
 	protected final static String PKG_SUFFIX_ACTION = ".action";
@@ -52,8 +53,8 @@ public class ScaffoldBuilder {
 		
 		mapping.put("conditionPath", getModelPath()+"SearchCondition");
 		mapping.put("responsePath", getModelPath() +"Response");
-		mapping.put("formPath", getModelPath() +"Form");
-		mapping.put("formName", clzName+"Form");
+		mapping.put("formPath", getFromPath()+"."+clzName+"DTO");
+		mapping.put("formName", clzName+"DTO");
 		mapping.put("responseName", clzName+"Response");
 		
 		mapping.put("daoPath", getDaoPath());
@@ -65,7 +66,16 @@ public class ScaffoldBuilder {
 
 		//getter setter
 
-		mapping.put("fieldsGetterSertter",tableInfo.getGetterSetter());
+		mapping.put("fieldsGetterSetter",tableInfo.getGetterSetter());
+
+		//toString
+		mapping.put("fieldsToString",tableInfo.getToString(clzName));
+
+
+		mapping.put("fieldsFromToModel",tableInfo.getFromTOModel(clzName));
+
+
+		mapping.put("fieldsModelToFrom",tableInfo.getModelTOFrom(clzName));
 
 
 		// for model sqlmapping
@@ -78,6 +88,7 @@ public class ScaffoldBuilder {
 		DevLog.debug(tableInfo.getParserKey());
 		mapping.put("parserKey", tableInfo.getParserKey());
 		mapping.put("parserKeyType",tableInfo.getPrimaryKeyType());
+		mapping.put("parserKeyFullType",tableInfo.getPrimaryKeyFullType());
 
 		DevLog.debug(tableInfo.getFindByLike());
 		mapping.put("findLikeBy", tableInfo.getFindByLike());
@@ -94,6 +105,11 @@ public class ScaffoldBuilder {
 	public String getModelPath() {
 		return PKG_PREFIX  + PKG_SUFFIX_MODEL + mpthName + "." +clzName;
 	}
+
+	public String getFromPath() {
+		return PKG_PREFIX + PKG_SUFFIX_FROMMODEL+"."+mpthName;
+	}
+
 	public String getConditionPath() {
 		return pkgName + PKG_SUFFIX_DOMAIN;
 	}
@@ -128,15 +144,15 @@ public class ScaffoldBuilder {
 //		list.add(new FileGenerator(pkgName + PKG_SUFFIX_DAO+businessName, clzName + "Mapper", "DAO.txt", mapping));
 //		list.add(new FileGenerator(pkgName + PKG_SUFFIX_DAO + businessName, clzName+"Mapper", "SqlMap.txt", mapping, "xml"));
 		//service
-//		list.add(new FileGenerator(pkgName + "service."+businessName, clzName + "Service", "Service.txt", mapping));
+		list.add(new FileGenerator(pkgName + "service."+businessName, "I"+clzName + "Service", "Service.txt", mapping));
 //		list.add(new FileGenerator(pkgName + "service."+businessName+".impl", clzName + "ServiceImpl", "ServiceImpl.txt", mapping));
 		//controller
 //		list.add(new FileGenerator(pkgNameWeb + "controller."+businessName, clzName + "Controller", "Controller.txt", mapping));
 		//model
-		list.add(new FileGenerator(pkgName + "model."+ mpthName, clzName, "Model.txt", mapping));
+//		list.add(new FileGenerator(pkgName + "model."+ mpthName, clzName, "Model.txt", mapping));
 //		System.out.println("包路径："+pkgName + "model."+mpthName);
 //		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"Response", "Response.txt", mapping));
-//		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"Form", "Form.txt", mapping));
+//		list.add(new FileGenerator(getFromPath(), clzName+"DTO", "Form.txt", mapping));
 //		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"SearchCondition", "SearchCondition.txt", mapping));
 
 		//		list.add(new FileGenerator(PKG_PREFIX + "model."+ mpthName, clzName, "Model.txt", mapping));

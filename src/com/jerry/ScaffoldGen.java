@@ -31,7 +31,6 @@ public class ScaffoldGen {
 	private final String clzName;
 	private final String tblName;
 	private final String mpthName;
-	protected final String idType = "java.lang.Long";
 	public ScaffoldGen(String pkgName, String clzName, String tblName,String mpthName, Map<String, String> dbInfo) {
 		this.pkgName = pkgName;
 		this.clzName = StringUtils.capitalize(clzName);
@@ -113,7 +112,6 @@ public class ScaffoldGen {
 				String keyName = rs.getString(COLUMN_NAME);
 				ColumnInfo keyInfo = new ColumnInfo(keyName, "VARCHAR2", 64, 20, 20,"主键");
 				tableInfo.setParserKey(keyInfo.parseFieldName());
-				tableInfo.setPrimaryKeyType(idType);
 			}
 
 			if (rs.next()) {

@@ -1,9 +1,11 @@
 package ${pkgPath};
 
-import lombok.Data;
-@Data
-public class ${clzName}Form {
-	private String ${parserKey};
-	${fieldsDeclareInfo}
-	
+import ${modelPath};
+
+public class ${clzName}DTO{
+${fieldsDeclareInfo}
+${fieldsGetterSetter}
+${fieldsModelToFrom}
+${fieldsFromToModel}
+${fieldsToString}
 }
