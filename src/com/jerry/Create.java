@@ -17,7 +17,7 @@ public class Create  {
 		map.put("jdbc","jdbc:mysql://localhost:3306/test");
 		map.put("driver","com.mysql.jdbc.Driver");
 						//business包名		//类名	   //具体的表名				    //MODEL包名
-		new ScaffoldGen("user", "User", "t_user","user",map).execute();
+		new ScaffoldGen("log", "OperateLog", "s_operate_log","log",map).execute();
 	}
 	public static void create(String business, String className, String tableName, String modelName, Map<String, String> dbInfo){
 		try {
