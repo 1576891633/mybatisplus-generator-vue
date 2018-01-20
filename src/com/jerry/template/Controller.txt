@@ -1,34 +1,29 @@
 package ${pkgPath};
 
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.jerry.commons.utils.Page;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.PageInfo;
 
 import ${modelPath};
 import ${formPath};
-import ${responsePath};
 import ${servicePath};
-import ${conditionPath};
 
 @Controller
 @RequestMapping("/${clzNameLC}")
 public class ${clzName}Controller{
 	
 	@Autowired
-	${clzName}Service ${clzNameLC}Service;
+	I${clzName}Service ${clzNameLC}Service;
 	
 	@RequestMapping(value = ("/list"), method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest request) {

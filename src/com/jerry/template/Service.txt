@@ -48,17 +48,17 @@ public interface I${clzName}Service {
 	 * 列表查询
 	 * @param ${clzNameLC} 查询条件
 	 */
-    List<${clzName}> findAll(${formName} ${clzNameLC});
+    List<${formName}> findAll(${formName} ${clzNameLC});
 
 	/**
 	 * 列表查询
 	 */
-    List<${clzName}> findAll();
+    List<${formName}> findAll();
 
 	/**
 	 * 单个查询
 	 */
-	${clzName} getById(${parserKeyType} ${parserKey});
+	${formName} getById(${parserKeyType} ${parserKey});
 
 	/**
 	 * 新增

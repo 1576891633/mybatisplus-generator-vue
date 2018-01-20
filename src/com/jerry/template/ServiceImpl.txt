@@ -29,7 +29,9 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
     public PageInfo findByPage(int page, int size,${formName} ${clzNameLC},String sort){
         PageHelper.startPage(page, size);
         PageHelper.orderBy(sort);
-        return new PageInfo(${clzNameLC}Mapper.findAll(${clzNameLC}));
+        List<${formName}> response =new ArrayList<>();
+        ${clzNameLC}Mapper.findAll(${clzNameLC}).stream().forEach(item->response.add(new ${formName}(item)));
+        return new PageInfo(response);
     }
 
 	/**
@@ -42,7 +44,9 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
     public PageInfo findByPage(int page, int size,${formName} ${clzNameLC}){
         PageHelper.startPage(page, size);
         PageHelper.orderBy("create_date desc");
-        return new PageInfo(${clzNameLC}Mapper.findAll(${clzNameLC}));
+        List<${formName}> response =new ArrayList<>();
+        ${clzNameLC}Mapper.findAll(${clzNameLC}).stream().forEach(item->response.add(new ${formName}(item)));
+        return new PageInfo(response);
     }
 
 	/**
@@ -55,7 +59,9 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
     public PageInfo findByPage(int page, int size,String sort){
         PageHelper.startPage(page, size);
         PageHelper.orderBy(sort);
-        return new PageInfo(${clzNameLC}Mapper.findAll(null));
+        List<${formName}> response =new ArrayList<>();
+        ${clzNameLC}Mapper.findAll(null).stream().forEach(item->response.add(new ${formName}(item)));
+        return new PageInfo(response);
     }
 
 	/**
@@ -67,29 +73,35 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
     public PageInfo findByPage(int page, int size){
         PageHelper.startPage(page, size);
         PageHelper.orderBy("create_date desc");
-        return new PageInfo(${clzNameLC}Mapper.findAll(null));
+        List<${formName}> response =new ArrayList<>();
+        ${clzNameLC}Mapper.findAll(null).stream().forEach(item->response.add(new ${formName}(item)));
+        return new PageInfo(response);
     }
 
 	/**
 	 * 列表查询
 	 * @param ${clzNameLC} 查询条件
 	 */
-    public List<${clzName}> findAll(${formName} ${clzNameLC}){
-        return ${clzNameLC}Mapper.findAll(${clzNameLC});
+    public List<${formName}> findAll(${formName} ${clzNameLC}){
+        List<${formName}> response =new ArrayList<>();
+        ${clzNameLC}Mapper.findAll(${clzNameLC}).stream().forEach(item->response.add(new ${formName}(item)));
+        return response;
     }
 
 	/**
 	 * 列表查询
 	 */
-    public List<${clzName}> findAll(){
-        return ${clzNameLC}Mapper.findAll(null);
+    public List<${formName}> findAll(){
+        List<${formName}> response =new ArrayList<>();
+        ${clzNameLC}Mapper.findAll(null).stream().forEach(item->response.add(new ${formName}(item)));
+         return response;
     }
 
 	/**
 	 * 单个查询
 	 */
-    public ${clzName} getById(${parserKeyType} ${parserKey}){
-        return ${clzNameLC}Mapper.getById(${parserKey});
+    public ${formName} getById(${parserKeyType} ${parserKey}){
+        return new ${formName}(${clzNameLC}Mapper.getById(${parserKey}));
     }
 
 	/**
