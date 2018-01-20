@@ -13,8 +13,8 @@ import org.apache.commons.logging.LogFactory;
 public class ScaffoldBuilder {
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	protected final static String PKG_PREFIX = "com.bison.";
-	protected final static String PKG_PREFIX_WEB = "com.bison.";
+	protected final static String PKG_PREFIX = "com.kingyon.";
+	protected final static String PKG_PREFIX_WEB = "com.kingyon.";
 	protected final static String PKG_PREFIX_BUSINESS = "";
 	protected final static String PKG_SUFFIX_MODEL = "model.";
 	protected final static String PKG_SUFFIX_FROMMODEL = "dto";
@@ -130,7 +130,7 @@ public class ScaffoldBuilder {
 	}
 
 	public String getManagerPath() {
-		return pkgName + PKG_SUFFIX_MANAGER + businessName + "." + clzName + "Service";
+		return pkgName + PKG_SUFFIX_MANAGER + businessName + ".I" + clzName + "Service";
 	}
 
 	public String getManagerImplPath() {

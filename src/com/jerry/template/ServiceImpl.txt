@@ -1,57 +1,117 @@
 package ${pkgPath};
 
 import java.util.List;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.jerry.commons.utils.Page;
+import com.github.pagehelper.PageInfo;
 
 import ${daoPath};
-import ${responsePath};
 import ${formPath};
 import ${modelPath};
-import ${conditionPath};
 import ${servicePath};
 
 
 @Service
-public class ${clzName}ServiceImpl implements ${clzName}Service {
+public class ${clzName}ServiceImpl implements I${clzName}Service {
 
-	@Resource
+	@Autowired
     private ${clzName}Mapper ${clzNameLC}Mapper;
+
 	/**
-	 * 查询列表
+	 * 分页查询
+	 * @param page 页数
+	 * @param size 每页条数
+	 * @param sort 排序条件
+	 * @param ${clzNameLC} 查询条件
+	 * @return
 	 */
-	public List<${clzName}Response> find${clzName}ByPage(Page<?> page){
-		return ${clzNameLC}Mapper.find${clzName}ByPage(page);
-	}
-	
+    public PageInfo findByPage(int page, int size,${formName} ${clzNameLC},String sort){
+        PageHelper.startPage(page, size);
+        PageHelper.orderBy(sort);
+        return new PageInfo(${clzNameLC}Mapper.findAll(${clzNameLC}));
+    }
+
+	/**
+	 * 分页查询（默认以创建时间倒序）
+	 * @param page 页数
+	 * @param size 每页条数
+	 * @param ${clzNameLC} 查询条件
+	 * @return
+	 */
+    public PageInfo findByPage(int page, int size,${formName} ${clzNameLC}){
+        PageHelper.startPage(page, size);
+        PageHelper.orderBy("create_date desc");
+        return new PageInfo(${clzNameLC}Mapper.findAll(${clzNameLC}));
+    }
+
+	/**
+	 * 分页查询
+	 * @param page 页数
+	 * @param size 每页条数
+	 * @param sort 排序条件
+	 * @return
+	 */
+    public PageInfo findByPage(int page, int size,String sort){
+        PageHelper.startPage(page, size);
+        PageHelper.orderBy(sort);
+        return new PageInfo(${clzNameLC}Mapper.findAll(null));
+    }
+
+	/**
+	 * 分页查询（默认以创建时间倒序）
+	 * @param page 页数
+	 * @param size 每页条数
+	 * @return
+	 */
+    public PageInfo findByPage(int page, int size){
+        PageHelper.startPage(page, size);
+        PageHelper.orderBy("create_date desc");
+        return new PageInfo(${clzNameLC}Mapper.findAll(null));
+    }
+
+	/**
+	 * 列表查询
+	 * @param ${clzNameLC} 查询条件
+	 */
+    public List<${clzName}> findAll(${formName} ${clzNameLC}){
+        return ${clzNameLC}Mapper.findAll(${clzNameLC});
+    }
+
+	/**
+	 * 列表查询
+	 */
+    public List<${clzName}> findAll(){
+        return ${clzNameLC}Mapper.findAll(null);
+    }
+
 	/**
 	 * 单个查询
 	 */
-	public ${clzName} getById(${clzName}SearchCondition condition){
-		return ${clzNameLC}Mapper.getById${clzName}(condition);
-	}
-	
+    public ${clzName} getById(${parserKeyType} ${parserKey}){
+        return ${clzNameLC}Mapper.getById(${parserKey});
+    }
+
 	/**
 	 * 新增
+	 * @return 新增id
 	 */
-	public int save(${clzName}Form ${clzNameLC}){
-		return  ${clzNameLC}Mapper.save(${clzNameLC});
-	}
-	 /**
+    public ${parserKeyType} save(${clzName} ${clzNameLC}){
+        ${clzNameLC}Mapper.save(${clzNameLC});
+        return ${clzNameLC}.getId();
+    }
+
+	/**
 	 * 修改
 	 */
-	public int update(${clzName}Form ${clzNameLC}){
-		return ${clzNameLC}Mapper.update(${clzNameLC});
-	}
-	 /**
+    public int update(${clzName} ${clzNameLC}){
+        return ${clzNameLC}Mapper.update(${clzNameLC});
+    }
+
+	/**
 	 * 删除
 	 */
-	public int deleteByIds(String[] ids){
-		return ${clzNameLC}Mapper.deleteByIds(ids);
-	}
+    public int deleteByIds(${parserKeyType}[] ids){
+        return ${clzNameLC}Mapper.deleteByIds(ids);
+    }
 }

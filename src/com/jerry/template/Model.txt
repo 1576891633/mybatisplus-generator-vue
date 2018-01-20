@@ -6,6 +6,6 @@ import java.io.Serializable;
 @Alias("${clzNameLC}")
 public class ${clzName} implements Serializable {
 ${fieldsDeclareInfo}
-${fieldsGetterSertter}
+${fieldsGetterSetter}
 ${fieldsToString}
 }

@@ -4,28 +4,56 @@ import ${formPath};
 import ${modelPath};
 
 import java.util.List;
+import com.github.pagehelper.PageInfo;
 
-public interface ${clzName}Service {
+public interface I${clzName}Service {
 
-    /**
-     * 分页查询
-     * @return
-     */
-    PageInfo findByPage(int page, int size,String sort,String dir,${formName} ${clzNameLC});
+	/**
+	 * 分页查询
+	 * @param page 页数
+	 * @param size 每页条数
+	 * @param sort 排序条件
+	 * @param ${clzNameLC} 查询条件
+	 * @return
+	 */
+    PageInfo findByPage(int page, int size,${formName} ${clzNameLC},String sort);
 
+	/**
+	 * 分页查询（默认以创建时间倒序）
+	 * @param page 页数
+	 * @param size 每页条数
+	 * @param ${clzNameLC} 查询条件
+	 * @return
+	 */
     PageInfo findByPage(int page, int size,${formName} ${clzNameLC});
 
-    PageInfo findByPage(int page, int size,String sort,String dir);
-
+	/**
+	 * 分页查询
+	 * @param page 页数
+	 * @param size 每页条数
+	 * @param sort 排序条件
+	 * @return
+	 */
     PageInfo findByPage(int page, int size,String sort);
 
+	/**
+	 * 分页查询（默认以创建时间倒序）
+	 * @param page 页数
+	 * @param size 每页条数
+	 * @return
+	 */
     PageInfo findByPage(int page, int size);
 
-    /**
-     * 列表查询
-     * @return
-     */
+	/**
+	 * 列表查询
+	 * @param ${clzNameLC} 查询条件
+	 */
     List<${clzName}> findAll(${formName} ${clzNameLC});
+
+	/**
+	 * 列表查询
+	 */
+    List<${clzName}> findAll();
 
 	/**
 	 * 单个查询
@@ -34,8 +62,9 @@ public interface ${clzName}Service {
 
 	/**
 	 * 新增
+	 * @return 新增id
 	 */
-	int save(${clzName} ${clzNameLC});
+	${parserKeyType} save(${clzName} ${clzNameLC});
 
 	 /**
 	 * 修改
@@ -45,5 +74,5 @@ public interface ${clzName}Service {
 	 /**
 	 * 删除
 	 */
-	int deleteByIds(String[] ids);
+	int deleteByIds(${parserKeyType}[] ids);
 }

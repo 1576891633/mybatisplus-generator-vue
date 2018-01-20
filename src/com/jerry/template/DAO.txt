@@ -23,7 +23,7 @@ public interface ${clzName}Mapper {
 	/**
 	 * 新增
 	 */
-	int save(${clzName} ${clzNameLC});
+	${parserKeyType} save(${clzName} ${clzNameLC});
 
 	 /**
 	 * 修改
@@ -33,7 +33,7 @@ public interface ${clzName}Mapper {
 	 /**
 	 * 删除
 	 */
-	int deleteByIds(String[] ids);
+	int deleteByIds(${parserKeyType}[] ids);
 
 }
 

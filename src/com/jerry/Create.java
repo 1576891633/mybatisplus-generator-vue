@@ -14,10 +14,10 @@ public class Create  {
 		HashMap<String,String> map =new HashMap<>();
 		map.put("userpwd","123456");
 		map.put("userName","root");
-		map.put("jdbc","jdbc:mysql://localhost:3306/test");
+		map.put("jdbc","jdbc:mysql://localhost:3306/chargepile");
 		map.put("driver","com.mysql.jdbc.Driver");
 						//business包名		//类名	   //具体的表名				    //MODEL包名
-		new ScaffoldGen("user", "User", "t_user","user",map).execute();
+		new ScaffoldGen("sysUser", "SysUser", "sys_user","sysUser",map).execute();
 	}
 	public static void create(String business, String className, String tableName, String modelName, Map<String, String> dbInfo){
 		try {

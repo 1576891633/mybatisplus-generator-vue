@@ -48,12 +48,9 @@
 	</select>
 
 
-	<insert id="save" parameterType="${clzNameLC}" keyProperty="${parserKey}">
+	<insert id="save" parameterType="${clzNameLC}" useGeneratedKeys="true" keyProperty="${parserKey}">
 		insert into
 		<include refid="tableNameSql" />
-		(
-		<include refid="commonSelectColumnsPrefix" />
-		)
 		${insertStatement}
 	</insert>
 

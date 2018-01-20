@@ -226,22 +226,26 @@ public class TableInfo {
 
 	public String getInsertStatement() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(" values (");
-		sb.append(ENDL);
-		ColumnInfo col = null;
-		sb.append(TAB3);
-		sb.append("#{" + parserKey + ",jdbcType=VARCHAR},");
-		sb.append(ENDL);
+		sb.append("( ").append(ENDL);
 		for (int i = 0; i < columns.size(); i++) {
-			col = columns.get(i);
+			ColumnInfo col = columns.get(i);
 			sb.append(TAB3);
-			sb.append("#{" + col.parseFieldName() + ",jdbcType=" + col.parseJdbcType() + "}");
-			if (i + 1 != columns.size()) {
-				sb.append(",");
-			}
-			sb.append(ENDL);
+			sb.append("<if test=\""+col.parseFieldName()+" != null and "+col.parseFieldName()+" != '' \">" +col.parseFieldName()+",</if>").append(ENDL);
 		}
 		sb.append(TAB3);
+		sb.append(parserKey).append(ENDL).append(TAB2);
+		sb.append(" )").append(ENDL).append(TAB2).append("values (");
+		sb.append(ENDL);
+		for (int i = 0; i < columns.size(); i++) {
+			ColumnInfo col = columns.get(i);
+			sb.append(TAB3);
+			sb.append("<if test=\""+col.parseFieldName()+" != null and "+col.parseFieldName()+" != '' \"> #{" + col.parseFieldName() + ",jdbcType=" + col.parseJdbcType() + "}");
+			sb.append(",");
+			sb.append("</if>");
+			sb.append(ENDL);
+		}
+		sb.append(TAB3).append("#{" + parserKey + ",jdbcType=VARCHAR}").append(ENDL);
+		sb.append(TAB2);
 		sb.append(" )");
 		return sb.toString();
 	}
