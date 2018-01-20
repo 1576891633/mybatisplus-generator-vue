@@ -43,7 +43,7 @@ public class ScaffoldGen {
 	}
 
 	public void execute() throws SQLException {
-		execute(true);
+		execute(false);
 	}
 
 	public void execute(boolean debug) throws SQLException {

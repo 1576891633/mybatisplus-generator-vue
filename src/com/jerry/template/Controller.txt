@@ -12,9 +12,10 @@ import com.kingyon.response.common.BaseResponse;
 import com.kingyon.response.common.TableDataResponse;
 import ${formPath};
 import ${servicePath};
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/${clzNameLC}")
+@RequestMapping("${businessName}/${clzNameLC}")
 public class ${clzName}Controller{
 	
 	@Autowired
@@ -32,7 +33,7 @@ public class ${clzName}Controller{
 	
 	/**
 	 * 获取表格数据
-	 * @param sysUser 查询条件
+	 * @param ${clzNameLC} 查询条件
 	 * @param page 页数
 	 * @param limit 每页条数
 	 * @return
@@ -47,7 +48,7 @@ public class ${clzName}Controller{
 
 	/**
 	 * 一般数据获取
-	 * @param sysUser 查询条件
+	 * @param ${clzNameLC} 查询条件
 	 * @return
 	 */
 	@GetMapping("/getData")
@@ -81,7 +82,7 @@ public class ${clzName}Controller{
 	
 	/**
 	 * 保存
-	 * @param sysUser
+	 * @param ${clzNameLC}
 	 * @return
 	 */
 	@PostMapping("/save")
@@ -93,7 +94,7 @@ public class ${clzName}Controller{
 	
 	/**
 	 * 修改
-	 * @param sysUser
+	 * @param ${clzNameLC}
 	 * @return
 	 */
 	@PostMapping("/update")
@@ -108,7 +109,7 @@ public class ${clzName}Controller{
 	 * @param ids
 	 * @return
 	 */
-	@RequestMapping(value = ("/delete") , method = RequestMethod.POST)
+	@PostMapping("/delete")
 	@ResponseBody
 	public BaseResponse delete(@RequestParam ${parserKeyType}[] ids){
 		${clzNameLC}Service.deleteByIds(ids);

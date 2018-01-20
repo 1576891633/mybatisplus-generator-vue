@@ -46,9 +46,10 @@ public class ScaffoldBuilder {
 		mapping = new HashMap<String, String>();
 
 		mapping.put("clzName", clzName);
+		mapping.put("businessName", businessName);
 		mapping.put("clzNameLC", StringUtils.uncapitalize(clzName));
 		mapping.put("tblName", tableInfo.getName());
-		mapping.put("modelPath", getModelPath());
+		mapping.put("modelPath", getModelPath()+ "." +clzName);
 		mapping.put("columns", tableInfo.getColumnNames());
 		
 		mapping.put("conditionPath", getModelPath()+"SearchCondition");
@@ -103,11 +104,11 @@ public class ScaffoldBuilder {
 	}
 	
 	public String getModelPath() {
-		return PKG_PREFIX  + PKG_SUFFIX_MODEL + mpthName + "." +clzName;
+		return pkgName + "model."+businessName+"."+ mpthName;
 	}
 
 	public String getFromPath() {
-		return PKG_PREFIX + PKG_SUFFIX_FROMMODEL+"."+mpthName;
+		return PKG_PREFIX + PKG_SUFFIX_FROMMODEL+"."+businessName+"."+mpthName;
 	}
 
 	public String getConditionPath() {
@@ -141,18 +142,18 @@ public class ScaffoldBuilder {
 	public List<FileGenerator> buildGenerators() {
 		List<FileGenerator> list = new ArrayList<FileGenerator>();
 		//dao mapper
-//		list.add(new FileGenerator(pkgName + PKG_SUFFIX_DAO+businessName, clzName + "Mapper", "DAO.txt", mapping));
-//		list.add(new FileGenerator(pkgName + PKG_SUFFIX_DAO + businessName, clzName+"Mapper", "SqlMap.txt", mapping, "xml"));
+		list.add(new FileGenerator(pkgName + PKG_SUFFIX_DAO+businessName, clzName + "Mapper", "DAO.txt", mapping));
+		list.add(new FileGenerator(pkgName + PKG_SUFFIX_DAO + businessName, clzName+"Mapper", "SqlMap.txt", mapping, "xml"));
 		//service
-//		list.add(new FileGenerator(pkgName + "service."+businessName, "I"+clzName + "Service", "Service.txt", mapping));
-//		list.add(new FileGenerator(pkgName + "service."+businessName+".impl", clzName + "ServiceImpl", "ServiceImpl.txt", mapping));
+		list.add(new FileGenerator(pkgName + "service."+businessName, "I"+clzName + "Service", "Service.txt", mapping));
+		list.add(new FileGenerator(pkgName + "service."+businessName+".impl", clzName + "ServiceImpl", "ServiceImpl.txt", mapping));
 		//controller
 		list.add(new FileGenerator(pkgNameWeb + "controller."+businessName, clzName + "Controller", "Controller.txt", mapping));
 		//model
-//		list.add(new FileGenerator(pkgName + "model."+ mpthName, clzName, "Model.txt", mapping));
+		list.add(new FileGenerator(getModelPath(), clzName, "Model.txt", mapping));
 //		System.out.println("包路径："+pkgName + "model."+mpthName);
 //		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"Response", "Response.txt", mapping));
-//		list.add(new FileGenerator(getFromPath(), clzName+"DTO", "Form.txt", mapping));
+		list.add(new FileGenerator(getFromPath(), clzName+"DTO", "Form.txt", mapping));
 //		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"SearchCondition", "SearchCondition.txt", mapping));
 
 		//		list.add(new FileGenerator(PKG_PREFIX + "model."+ mpthName, clzName, "Model.txt", mapping));

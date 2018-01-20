@@ -88,7 +88,7 @@ public class BeanRobot extends JFrame {
 
 		dbNameFiled = new JTextField();
 		dbNameFiled.setBounds(146, 68, 147, 21);
-		dbNameFiled.setText("test");
+		dbNameFiled.setText("chargepile");
 		panel.add(dbNameFiled);
 		dbNameFiled.setColumns(10);
 
@@ -117,7 +117,7 @@ public class BeanRobot extends JFrame {
 		panel.add(packLabel);
 
 		packField = new JTextField();
-		packField.setText("frontConfig");
+		packField.setText("system");
 		packField.setBounds(146, 155, 147, 21);
 		panel.add(packField);
 		packField.setColumns(10);
