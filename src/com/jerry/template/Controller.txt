@@ -1,8 +1,6 @@
 package ${pkgPath};
 
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,11 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.PageInfo;
-
-import ${modelPath};
+import com.kingyon.response.common.BaseResponse;
+import com.kingyon.response.common.TableDataResponse;
 import ${formPath};
 import ${servicePath};
 
@@ -25,39 +20,99 @@ public class ${clzName}Controller{
 	@Autowired
 	I${clzName}Service ${clzNameLC}Service;
 	
-	@RequestMapping(value = ("/list"), method = RequestMethod.GET)
-	public ModelAndView list(HttpServletRequest request) {
-		return new ModelAndView("${clzNameLC}/list");
+	/**
+	 * 跳转首页
+	 * @return
+	 */
+	@GetMapping("/index")
+	public ModelAndView list() {
+	    ModelAndView view = new ModelAndView("${clzNameLC}/list");
+		return view;
 	}
 	
-	@RequestMapping(value = ("/find${clzName}List"), method = RequestMethod.POST)
+	/**
+	 * 获取表格数据
+	 * @param sysUser 查询条件
+	 * @param page 页数
+	 * @param limit 每页条数
+	 * @return
+	 */
+	@GetMapping("/getTableData")
 	@ResponseBody
-	public JSONObject find${clzName}List(HttpServletRequest request,@ModelAttribute ${clzName}SearchCondition condition,Page<?> page) {
-		return ${clzNameLC}Service.find${clzName}ByPage(page);
+	public TableDataResponse getTableData(@ModelAttribute ${formName} ${clzNameLC},
+                                          @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+                                          @RequestParam(value = "limit", defaultValue = "15", required = false) int limit) {
+		return new TableDataResponse(${clzNameLC}Service.findByPage(page,limit,${clzNameLC}));
 	}
-	
-	@RequestMapping(value = ("/toAdd"), method = RequestMethod.GET)
-	public ModelAndView toAdd(${clzName}SearchCondition condition){
+
+	/**
+	 * 一般数据获取
+	 * @param sysUser 查询条件
+	 * @return
+	 */
+	@GetMapping("/getData")
+	@ResponseBody
+	public BaseResponse getData(@ModelAttribute ${formName} ${clzNameLC}) {
+		return new BaseResponse(${clzNameLC}Service.findAll(${clzNameLC}));
+	}
+
+    /**
+     * 通过id获取数据
+     * @param id
+     * @return
+     */
+    @GetMapping("/getById")
+    @ResponseBody
+    public BaseResponse getById(@RequestParam ${parserKeyType} id) {
+        return new BaseResponse(${clzNameLC}Service.getById(id));
+    }
+
+	/**
+	 * 跳转修改 新增页面
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/toAdd")
+	public ModelAndView toAdd(@RequestParam(required = false) ${parserKeyType} id){
 		ModelAndView model = new ModelAndView("${clzNameLC}/edit");
-		model.addObject("${clzNameLC}", ${clzNameLC}Service.getById(condition));//设置ID
+		model.addObject("${clzNameLC}", ${clzNameLC}Service.getById(id));//设置ID
 		return model;
 	}
 	
-	@RequestMapping(value = ("/add${clzName}"), method = RequestMethod.POST)
+	/**
+	 * 保存
+	 * @param sysUser
+	 * @return
+	 */
+	@PostMapping("/save")
 	@ResponseBody
-	public JSONObject add${clzName}(${clzName}Form ${clzNameLC}) throws Exception {
-		return ${clzNameLC}Service.save(${clzNameLC});
+	public BaseResponse save(@ModelAttribute ${formName} ${clzNameLC}){
+		${clzNameLC}Service.save(${clzNameLC}.to${clzName}());
+		return new BaseResponse("保存成功");
 	}
 	
-	@RequestMapping(value = "/update${clzName}", method = RequestMethod.POST)
+	/**
+	 * 修改
+	 * @param sysUser
+	 * @return
+	 */
+	@PostMapping("/update")
 	@ResponseBody
-	public JSONObject update${clzName}(${clzName}Form ${clzNameLC}Form) {
-		return ${clzNameLC}Service.update(${clzNameLC}Form)
+	public BaseResponse update(@ModelAttribute ${formName} ${clzNameLC}) {
+		${clzNameLC}Service.update(${clzNameLC}.to${clzName}());
+		return new BaseResponse("修改成功");
 	}
 
-	@RequestMapping(value = ("/delete${clzName}") , method = RequestMethod.POST)
+	/**
+	 * 删除
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping(value = ("/delete") , method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject delete${clzName}(String[] ids) throws Exception {
-		return ${clzNameLC}Service.deleteByIds(ids);
+	public BaseResponse delete(@RequestParam ${parserKeyType}[] ids){
+		${clzNameLC}Service.deleteByIds(ids);
+		return new BaseResponse("删除成功");
 	}
+
 }
