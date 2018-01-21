@@ -90,11 +90,11 @@ public class ColumnInfo {
 			case "DOUBLE":result = "Double";break;
 			case "DECIMAL":result = "BigDecimal";break;
 			case "ID":result = "Long";break;
-			case "DATE":result = "java.util.Date";break;
-			case "TIME":result = "java.util.Date";break;
-			case "DATETIME":result = "java.util.Date";break;
-			case "TIMESTAMP":result = "java.util.Date";break;
-			case "YEAR":result = "java.util.Date";break;
+			case "DATE":result = "java.sql.Date";break;
+			case "TIME":result = "java.sql.Time";break;
+			case "DATETIME":result = "java.sql.Timestamp";break;
+			case "TIMESTAMP":result = "java.sql.Timestamp";break;
+			case "YEAR":result = "java.sql.Date";break;
 		}
 		return result;
 	}
@@ -108,9 +108,10 @@ public class ColumnInfo {
 		if (javaType.equalsIgnoreCase("int")) {
 			result = "INTEGER";
 		}
-		if (javaType.endsWith("Date")) {
-			result = "DATE";
+		if (javaType.endsWith("Timestamp") || javaType.endsWith("Time")|| javaType.endsWith("Date")) {
+			result = "TIMESTAMP";
 		}
+
 		return result;
 	}
 

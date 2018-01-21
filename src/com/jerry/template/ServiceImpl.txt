@@ -1,14 +1,17 @@
 package ${pkgPath};
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageHelper;
+import com.kingyon.support.common.exception.ServiceException;
 
 import ${daoPath};
 import ${formPath};
+import ${queryPath};
 import ${modelPath};
 import ${servicePath};
 
@@ -27,12 +30,15 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 * @param ${clzNameLC} 查询条件
 	 * @return
 	 */
-    public PageInfo findByPage(int page, int size,${formName} ${clzNameLC},String sort){
+    public PageInfo findByPage(int page, int size,${queryName} ${clzNameLC},String sort){
         PageHelper.startPage(page, size);
         PageHelper.orderBy(sort);
+        List<${clzName}> data = ${clzNameLC}Mapper.findAll(${clzNameLC});
+        PageInfo info =new PageInfo(data);
         List<${formName}> response =new ArrayList<>();
-        ${clzNameLC}Mapper.findAll(${clzNameLC}).stream().forEach(item->response.add(new ${formName}(item)));
-        return new PageInfo(response);
+        data.stream().forEach(item->response.add(new ${formName}(item)));
+        info.setList(response);
+        return info;
     }
 
 	/**
@@ -42,12 +48,15 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 * @param ${clzNameLC} 查询条件
 	 * @return
 	 */
-    public PageInfo findByPage(int page, int size,${formName} ${clzNameLC}){
+    public PageInfo findByPage(int page, int size,${queryName} ${clzNameLC}){
         PageHelper.startPage(page, size);
         PageHelper.orderBy("create_date desc");
+        List<${clzName}> data = ${clzNameLC}Mapper.findAll(${clzNameLC});
+        PageInfo info =new PageInfo(data);
         List<${formName}> response =new ArrayList<>();
-        ${clzNameLC}Mapper.findAll(${clzNameLC}).stream().forEach(item->response.add(new ${formName}(item)));
-        return new PageInfo(response);
+        data.stream().forEach(item->response.add(new ${formName}(item)));
+        info.setList(response);
+        return info;
     }
 
 	/**
@@ -60,9 +69,12 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
     public PageInfo findByPage(int page, int size,String sort){
         PageHelper.startPage(page, size);
         PageHelper.orderBy(sort);
+        List<${clzName}> data = ${clzNameLC}Mapper.findAll(new ${queryName}());
+        PageInfo info =new PageInfo(data);
         List<${formName}> response =new ArrayList<>();
-        ${clzNameLC}Mapper.findAll(null).stream().forEach(item->response.add(new ${formName}(item)));
-        return new PageInfo(response);
+        data.stream().forEach(item->response.add(new ${formName}(item)));
+        info.setList(response);
+        return info;
     }
 
 	/**
@@ -74,16 +86,19 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
     public PageInfo findByPage(int page, int size){
         PageHelper.startPage(page, size);
         PageHelper.orderBy("create_date desc");
+        List<${clzName}> data = ${clzNameLC}Mapper.findAll(new ${queryName}());
+        PageInfo info =new PageInfo(data);
         List<${formName}> response =new ArrayList<>();
-        ${clzNameLC}Mapper.findAll(null).stream().forEach(item->response.add(new ${formName}(item)));
-        return new PageInfo(response);
+        data.stream().forEach(item->response.add(new ${formName}(item)));
+        info.setList(response);
+        return info;
     }
 
 	/**
 	 * 列表查询
 	 * @param ${clzNameLC} 查询条件
 	 */
-    public List<${formName}> findAll(${formName} ${clzNameLC}){
+    public List<${formName}> findAll(${queryName} ${clzNameLC}){
         List<${formName}> response =new ArrayList<>();
         ${clzNameLC}Mapper.findAll(${clzNameLC}).stream().forEach(item->response.add(new ${formName}(item)));
         return response;
@@ -94,7 +109,7 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 */
     public List<${formName}> findAll(){
         List<${formName}> response =new ArrayList<>();
-        ${clzNameLC}Mapper.findAll(null).stream().forEach(item->response.add(new ${formName}(item)));
+        ${clzNameLC}Mapper.findAll(new ${queryName}()).stream().forEach(item->response.add(new ${formName}(item)));
          return response;
     }
 
@@ -110,7 +125,11 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 * @return 新增id
 	 */
     public ${parserKeyType} save(${clzName} ${clzNameLC}){
-        ${clzNameLC}Mapper.save(${clzNameLC});
+        if (${clzNameLC}.getId()!=null){
+            update(${clzNameLC});
+        }else {
+            ${clzNameLC}Mapper.save(${clzNameLC});
+        }
         return ${clzNameLC}.getId();
     }
 
@@ -118,6 +137,9 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 * 修改
 	 */
     public int update(${clzName} ${clzNameLC}){
+        if(${clzNameLC}.getId()==null){
+            throw new ServiceException("参数错误");
+        }
         return ${clzNameLC}Mapper.update(${clzNameLC});
     }
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.kingyon.response.common.BaseResponse;
 import com.kingyon.response.common.TableDataResponse;
 import ${formPath};
+import ${queryPath};
 import ${servicePath};
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +27,8 @@ public class ${clzName}Controller{
 	 * @return
 	 */
 	@GetMapping("/index")
-	public ModelAndView list() {
-	    ModelAndView view = new ModelAndView("${clzNameLC}/list");
+	public ModelAndView index() {
+	    ModelAndView view = new ModelAndView("${businessName}/${clzNameLC}/index");
 		return view;
 	}
 	
@@ -40,7 +41,7 @@ public class ${clzName}Controller{
 	 */
 	@GetMapping("/getTableData")
 	@ResponseBody
-	public TableDataResponse getTableData(@ModelAttribute ${formName} ${clzNameLC},
+	public TableDataResponse getTableData(@ModelAttribute ${queryName} ${clzNameLC},
                                           @RequestParam(value = "page", defaultValue = "0", required = false) int page,
                                           @RequestParam(value = "limit", defaultValue = "15", required = false) int limit) {
 		return new TableDataResponse(${clzNameLC}Service.findByPage(page,limit,${clzNameLC}));
@@ -53,7 +54,7 @@ public class ${clzName}Controller{
 	 */
 	@GetMapping("/getData")
 	@ResponseBody
-	public BaseResponse getData(@ModelAttribute ${formName} ${clzNameLC}) {
+	public BaseResponse getData(@ModelAttribute ${queryName} ${clzNameLC}) {
 		return new BaseResponse(${clzNameLC}Service.findAll(${clzNameLC}));
 	}
 
@@ -75,8 +76,10 @@ public class ${clzName}Controller{
 	 */
 	@GetMapping("/toAdd")
 	public ModelAndView toAdd(@RequestParam(required = false) ${parserKeyType} id){
-		ModelAndView model = new ModelAndView("${clzNameLC}/edit");
-		model.addObject("${clzNameLC}", ${clzNameLC}Service.getById(id));//设置ID
+		ModelAndView model = new ModelAndView("${businessName}/${clzNameLC}/edit");
+		if(id!=null){
+			model.addObject("${clzNameLC}", ${clzNameLC}Service.getById(id));//设置ID
+		}
 		return model;
 	}
 	

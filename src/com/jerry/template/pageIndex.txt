@@ -1,0 +1,122 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <%@include file="/WEB-INF/view/base.jsp"%>
+</head>
+<body>
+<section class="layui-larry-box">
+    <div class="larry-personal">
+        <div class="layui-tab">
+            <blockquote class="layui-elem-quote news_search">
+${pageQueryFrom}
+            </blockquote>
+            <div style="text-align: right">
+                <a class="layui-btn layui-btn-normal" onclick="detail()">添加</a>
+                <a class="layui-btn layui-btn-danger" onclick="deletes()">批量删除</a>
+            </div>
+        </div>
+
+        <table id="table" lay-filter="tableEvent"></table>
+    </div>
+</section>
+
+</body>
+</html>
+
+<script type="application/javascript">
+//全局
+var _public;
+
+layui.config({
+    base: basePath+'/static/common/'
+}).use(['table', "layer", "jquery", "common"], function () {
+    var table = layui.table,$=layui.jquery,layer=layui.layer,common = layui.common,form = layui.form
+    //数据路径
+    var dataUrl = basePath + "${businessName}/${clzNameLC}/getTableData";
+    //加载表格
+    table.render({
+        elem: "#table",
+        url: dataUrl,
+        page: true,
+        limit:12,
+        limits:[12,30,50,100],
+        where: common.formToData("#queryForm"),
+        even:true,
+        cols: [[
+            ${pageIndexCols}
+        ]]
+    })
+
+    /**
+     * 工具条
+     */
+    function getBtn() {
+
+        var div = $("<div></div>");
+
+        div.append('<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>')
+
+        div.append('<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>')
+
+        return div;
+    }
+
+    /**
+     * 重新加载数据
+     */
+    reloadData = function () {
+        table.reload("table", {
+            where: common.formToData("#queryForm"),
+        });
+    }
+
+    /**
+     * 重置查询条件
+     */
+    resetFrom = function () {
+        $("#queryForm")[0].reset()
+        reloadData()
+    }
+
+    //监听工具条
+    table.on('tool(tableEvent)', function (obj) {
+        var data = obj.data;
+        if (obj.event === 'edit') {
+            detail(data.id);
+        } else if (obj.event === 'del') {
+            batchDelete(data.id)
+        }
+    });
+
+    /**
+     * 页面详情
+     */
+    detail = function (id) {
+        var url = basePath+"${businessName}/${clzNameLC}/toAdd?"+ (id==null?"":"id="+id);
+
+        var open = common.openUrl(url,"详情页面");
+
+        _public = function () {layer.close(open);reloadData();}
+    }
+
+
+    //删除和批量删除
+    deletes = function() {
+        var checkIds = common.getTableCheckIds("table");
+        if (checkIds == ""){
+            layer.msg("无选中项!");
+            return false;
+        }
+        batchDelete(checkIds)
+    }
+
+    function batchDelete(id){
+        layer.confirm('确认删除？', {icon: 3, title:'提示'}, function(index){
+            axios.post("${businessName}/${clzNameLC}/delete",common.paramStringify({ids:id}))
+                .then(function(response) {if (response.status){reloadData();layer.close(index)}});
+        });
+    }
+
+})
+</script>

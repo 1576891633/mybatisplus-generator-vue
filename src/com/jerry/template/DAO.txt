@@ -1,7 +1,7 @@
 package ${pkgPath};
 
 import ${modelPath};
-import ${formPath};
+import ${queryPath};
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public interface ${clzName}Mapper {
      * 列表查询
      * @return
      */
-    List<${clzName}> findAll(${formName} ${clzNameLC});
+    List<${clzName}> findAll(${queryName} ${clzNameLC});
 
 	/**
 	 * 单个查询

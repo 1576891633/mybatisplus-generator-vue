@@ -56,6 +56,9 @@ public class ScaffoldBuilder {
 		mapping.put("responsePath", getModelPath() +"Response");
 		mapping.put("formPath", getFromPath()+"."+clzName+"DTO");
 		mapping.put("formName", clzName+"DTO");
+
+		mapping.put("queryPath", getFromPath()+"."+clzName+"Query");
+		mapping.put("queryName", clzName+"Query");
 		mapping.put("responseName", clzName+"Response");
 		
 		mapping.put("daoPath", getDaoPath());
@@ -81,7 +84,12 @@ public class ScaffoldBuilder {
 
 		// for model sqlmapping
 		mapping.put("resultMap", tableInfo.getResultMap());
-		mapping.put("otherCondition", tableInfo.getOtherCondition());		
+		mapping.put("otherCondition", tableInfo.getOtherCondition());
+
+		//page
+		mapping.put("pageIndexCols", tableInfo.getPageIndexCols());
+		mapping.put("pageQueryFrom", tableInfo.getPageQueryFrom());
+		mapping.put("pageEditFrom", tableInfo.getPageEditFrom(StringUtils.uncapitalize(clzName)));
 
 		DevLog.debug(tableInfo.getPrimaryKey());
 		mapping.put("primaryKey", tableInfo.getPrimaryKey());
@@ -151,11 +159,14 @@ public class ScaffoldBuilder {
 		list.add(new FileGenerator(pkgNameWeb + "controller."+businessName, clzName + "Controller", "Controller.txt", mapping));
 		//model
 		list.add(new FileGenerator(getModelPath(), clzName, "Model.txt", mapping));
-//		System.out.println("包路径："+pkgName + "model."+mpthName);
-//		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"Response", "Response.txt", mapping));
 		list.add(new FileGenerator(getFromPath(), clzName+"DTO", "Form.txt", mapping));
+		list.add(new FileGenerator(getFromPath(), clzName+"Query", "query.txt", mapping));
 //		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"SearchCondition", "SearchCondition.txt", mapping));
+//		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"Response", "Response.txt", mapping));
 
+		//page
+		list.add(new FileGenerator(pkgNameWeb + "page."+businessName+"."+StringUtils.uncapitalize(clzName), "index", "pageIndex.txt", mapping,"jsp"));
+		list.add(new FileGenerator(pkgNameWeb + "page."+businessName+"."+StringUtils.uncapitalize(clzName), "edit", "pageEdit.txt", mapping,"jsp"));
 		//		list.add(new FileGenerator(PKG_PREFIX + "model."+ mpthName, clzName, "Model.txt", mapping));
 //		list.add(new FileGenerator(pkgName + "model."+ businessName, clzName, "Model.txt", mapping));
 //		list.add(new FileGenerator(pkgName +"."+ PKG_SUFFIX_MAPPER, clzName+"Mapper", "SqlMap.txt", mapping, "xml"));

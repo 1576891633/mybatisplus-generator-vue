@@ -115,6 +115,9 @@ public class TableInfo {
 			sb.append(field.getType());
 			sb.append(" ");
 			sb.append(field.getName());
+			if (field.getName().equals("deleted")){
+				sb.append(" = Boolean.FALSE");
+			}
 			sb.append(";");
 			sb.append(ENDL).append(ENDL);
 		}
@@ -204,6 +207,95 @@ public class TableInfo {
 		return sb.toString();
 	}
 
+
+	public String getPageIndexCols(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("{type: 'checkbox',  fixed: 'left'},").append(ENDL);
+		for (FieldInfo field : fields) {
+			String name = field.getName();
+			if (!name.equals("deleted") && !name.equals("updateDate")){
+				sb.append(TAB3).append("{field: '"+name+"', title: '"+paresRemarks(field.getRemarks())+"', fixed: 'left',unresize:true},").append(ENDL);
+			}
+		}
+		sb.append(TAB3).append("{title: \"操作\", fixed: \"left\", toolbar: getBtn()}");
+		return sb.toString();
+	}
+
+	public String getPageEditFrom(String clzNameLC){
+		StringBuffer sb = new StringBuffer();
+		sb.append(TAB).append("<form class=\"layui-form layui-form-pane\" id=\"submitForm\">").append(ENDL).append(ENDL);
+		sb.append(TAB2).append("<input type=\"hidden\" id=\"id\" name=\"id\" value=\"${"+clzNameLC+"."+parserKey+"}\"/>").append(ENDL).append(ENDL);
+		for (FieldInfo field : fields) {
+			String name = field.getName();
+			if (!name.equals("deleted") && !name.equals("updateDate")){
+				sb.append(TAB2).append("<div class=\"layui-form-item\">").append(ENDL);
+				sb.append(TAB3).append("<label class=\"layui-form-label\">"+paresRemarks(field.getRemarks())+"</label>").append(ENDL);
+				sb.append(TAB3).append("<div class=\"layui-input-block\">").append(ENDL);
+				sb.append(TAB4).append("<input type=\"text\" ");
+				if (name.equals("createDate")){
+					sb.append(" disabled ");
+				}
+				sb.append("name=\""+name+"\" autocomplete=\"off\" class=\"layui-input\" value=\"${"+clzNameLC+"."+name+"}\" />").append(ENDL);
+				sb.append(TAB3).append("</div>").append(ENDL);
+				sb.append(TAB2).append("</div>").append(ENDL).append(ENDL);
+			}
+		}
+		sb.append(TAB2).append("<div class=\"layui-form-item\">").append(ENDL);
+		sb.append(TAB3).append("<div class=\"layui-input-block\">").append(ENDL);
+		sb.append(TAB4).append("<button class=\"layui-btn\" lay-submit lay-filter=\"formSubmit\">立即提交</button>").append(ENDL);
+		sb.append(TAB3).append("</div>").append(ENDL);
+		sb.append(TAB2).append("</div>").append(ENDL).append(ENDL);
+		sb.append(TAB).append("</form>");
+		return sb.toString();
+	}
+
+	public String getPageQueryFrom(){
+		StringBuffer sb = new StringBuffer();
+		sb.append(TAB4).append(" <form id=\"queryForm\" class=\"layui-form\">").append(ENDL);
+		sb.append(TAB4).append(TAB).append("<div class=\"layui-form-item\">").append(ENDL);
+		for (FieldInfo field : fields) {
+			String name = field.getName();
+			String type = field.getType();
+			if (type.endsWith("String")){
+				sb.append(TAB4).append(TAB2).append("<div class=\"layui-inline\">").append(ENDL);
+				sb.append(TAB4).append(TAB3).append("<label class=\"layui-form-label\">"+paresRemarks(field.getRemarks())+"</label>").append(ENDL);
+				sb.append(TAB4).append(TAB3).append("<div class=\"layui-input-inline\">").append(ENDL);
+				sb.append(TAB4).append(TAB4).append("<input type=\"tel\" name=\""+name+"\" lay-verify=\"\" autocomplete=\"off\" class=\"layui-input\">").append(ENDL);
+				sb.append(TAB4).append(TAB3).append("</div>").append(ENDL);
+				sb.append(TAB4).append(TAB2).append("</div>").append(ENDL).append(ENDL);
+			}
+		}
+		sb.append(TAB4).append(TAB2).append("<a class=\"layui-btn search_btn\" onclick=\"reloadData()\">查询</a>").append(ENDL);
+		sb.append(TAB4).append(TAB2).append("<a class=\"layui-btn search_btn\" onclick=\"resetFrom()\">重置</a>").append(ENDL);
+		sb.append(TAB4).append(TAB).append("</div>").append(ENDL);
+		sb.append(TAB4).append("</form>");
+		return sb.toString();
+	}
+
+	/**
+	 * 解析备注-页面表头
+	 * @param remark
+	 * @return
+	 */
+	public String paresRemarks(String remark){
+		String[] split = remark.split(" ");
+		if (split.length>1){
+			return split[0];
+		}
+		split= remark.split("/n");
+		if (split.length>1){
+			return split[0];
+		}
+		split= remark.split("-");
+		if (split.length>1){
+			return split[0];
+		}
+		if (remark.endsWith("id")){
+			return remark.substring(0,remark.length()-2);
+		}
+		return remark;
+	}
+
 	/**
 	 * 首字母大写
 	 * @param str
@@ -229,8 +321,16 @@ public class TableInfo {
 		sb.append("( ").append(ENDL);
 		for (int i = 0; i < columns.size(); i++) {
 			ColumnInfo col = columns.get(i);
-			sb.append(TAB3);
-			sb.append("<if test=\""+col.parseFieldName()+" != null and "+col.parseFieldName()+" != '' \">" +col.parseFieldName()+",</if>").append(ENDL);
+			if (!col.parseFieldName().equals("deleted") && !col.parseFieldName().equals("updateDate") && !col.parseFieldName().equals("createDate")){
+				sb.append(TAB3);
+				sb.append("<if test=\""+col.parseFieldName()+" != null");
+				if (!col.parseJdbcType().equals("TIMESTAMP")&&!col.parseJavaType().equals("Boolean")){
+					sb.append(" and "+col.parseFieldName()+" != '' ");
+				}
+				sb.append(" \"> ");
+				sb.append(col.getName()+",</if>");
+				sb.append(ENDL);
+			}
 		}
 		sb.append(TAB3);
 		sb.append(parserKey).append(ENDL).append(TAB2);
@@ -238,11 +338,17 @@ public class TableInfo {
 		sb.append(ENDL);
 		for (int i = 0; i < columns.size(); i++) {
 			ColumnInfo col = columns.get(i);
-			sb.append(TAB3);
-			sb.append("<if test=\""+col.parseFieldName()+" != null and "+col.parseFieldName()+" != '' \"> #{" + col.parseFieldName() + ",jdbcType=" + col.parseJdbcType() + "}");
-			sb.append(",");
-			sb.append("</if>");
-			sb.append(ENDL);
+			if (!col.parseFieldName().equals("deleted") && !col.parseFieldName().equals("updateDate") && !col.parseFieldName().equals("createDate")) {
+				sb.append(TAB3);
+				sb.append("<if test=\"" + col.parseFieldName() + " != null ");
+				if (!col.parseJdbcType().equals("TIMESTAMP")&&!col.parseJavaType().equals("Boolean")) {
+					sb.append(" and " + col.parseFieldName() + " != '' ");
+				}
+				sb.append("\"> #{" + col.parseFieldName() + ",jdbcType=" + col.parseJdbcType() + "}");
+				sb.append(",");
+				sb.append("</if>");
+				sb.append(ENDL);
+			}
 		}
 		sb.append(TAB3).append("#{" + parserKey + ",jdbcType=VARCHAR}").append(ENDL);
 		sb.append(TAB2);
@@ -257,14 +363,20 @@ public class TableInfo {
 		ColumnInfo col = null;
 		for (int i = 0; i < columns.size(); i++) {
 			col = columns.get(i);
-			sb.append(TAB3);
-			sb.append("<if test=\"" + col.parseFieldName() + " != null and " + col.parseFieldName() + " != '' \"> ");
-			sb.append(col.getName() + "=#{" + col.parseFieldName() + ",jdbcType=" + col.parseJdbcType() + "}");
-			if (i + 1 != columns.size()) {
-				sb.append(",");
+			if (!col.parseFieldName().equals("deleted") && !col.parseFieldName().equals("updateDate") && !col.parseFieldName().equals("createDate")) {
+				sb.append(TAB3);
+				sb.append("<if test=\"" + col.parseFieldName() + " != null");
+				if (!col.parseJdbcType().equals("TIMESTAMP") && !col.parseJavaType().equals("Boolean")) {
+					sb.append(" and " + col.parseFieldName() + " != '' ");
+				}
+				sb.append(" \"> ");
+				sb.append(col.getName() + "=#{" + col.parseFieldName() + ",jdbcType=" + col.parseJdbcType() + "}");
+				if (i + 1 != columns.size()) {
+					sb.append(",");
+				}
+				sb.append("</if>");
+				sb.append(ENDL);
 			}
-			sb.append("</if>");
-			sb.append(ENDL);
 		}
 		sb.append(TAB3);
 		sb.append("</trim>");
@@ -305,16 +417,25 @@ public class TableInfo {
 
 	public String getOtherCondition() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("<where>");
+		sb.append(TAB2).append("<where>");
 		sb.append(ENDL);
 		for (ColumnInfo col : columns) {
 			sb.append(TAB3);
-			sb.append("<if test=\"" + col.parseFieldName() + " != null and " + col.parseFieldName() + " != '' \"> ");
-			sb.append(" and "+ col.getName() +" =#{"+ col.parseFieldName()+"}");
+			sb.append("<if test=\""+col.parseFieldName()+" != null");
+			if (!col.parseJdbcType().equals("TIMESTAMP")&&!col.parseJavaType().equals("Boolean")){
+				sb.append(" and "+col.parseFieldName()+" != '' ");
+			}
+			sb.append(" \"> ");
+			String type = col.parseJavaType();
+			if (type.endsWith("String")){ //like CONCAT('%','${name}','%' )
+				sb.append(" and "+ col.getName() +" like CONCAT('%','${"+col.parseFieldName()+"}','%' )");
+			}else {
+				sb.append(" and "+ col.getName() +" =#{"+ col.parseFieldName()+"}");
+			}
 			sb.append("</if>");
 			sb.append(ENDL);
 		}
-		sb.append(TAB3);
+		sb.append(TAB2);
 		sb.append("</where>");
 		return sb.toString();
 	}

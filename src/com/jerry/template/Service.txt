@@ -1,6 +1,7 @@
 package ${pkgPath};
 
 import ${formPath};
+import ${queryPath};
 import ${modelPath};
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface I${clzName}Service {
 	 * @param ${clzNameLC} 查询条件
 	 * @return
 	 */
-    PageInfo findByPage(int page, int size,${formName} ${clzNameLC},String sort);
+    PageInfo findByPage(int page, int size,${queryName} ${clzNameLC},String sort);
 
 	/**
 	 * 分页查询（默认以创建时间倒序）
@@ -25,7 +26,7 @@ public interface I${clzName}Service {
 	 * @param ${clzNameLC} 查询条件
 	 * @return
 	 */
-    PageInfo findByPage(int page, int size,${formName} ${clzNameLC});
+    PageInfo findByPage(int page, int size,${queryName} ${clzNameLC});
 
 	/**
 	 * 分页查询
@@ -48,7 +49,7 @@ public interface I${clzName}Service {
 	 * 列表查询
 	 * @param ${clzNameLC} 查询条件
 	 */
-    List<${formName}> findAll(${formName} ${clzNameLC});
+    List<${formName}> findAll(${queryName} ${clzNameLC});
 
 	/**
 	 * 列表查询

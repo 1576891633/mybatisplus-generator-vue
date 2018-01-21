@@ -1,0 +1,6 @@
+package ${pkgPath};
+
+
+public class ${clzName}Query extends ${clzName}DTO{
+
+}
