@@ -34,7 +34,7 @@ public class ScaffoldGen {
 	public ScaffoldGen(String pkgName, String clzName, String tblName,String mpthName, Map<String, String> dbInfo) {
 		this.pkgName = pkgName;
 		this.clzName = StringUtils.capitalize(clzName);
-		this.tblName = tblName.toUpperCase();
+		this.tblName = tblName;
 		this.mpthName = mpthName;
 		JDBC_PASSWORD = dbInfo.get("userpwd");
 		JDBC_USER = dbInfo.get("userName");
