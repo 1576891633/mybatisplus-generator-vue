@@ -109,6 +109,7 @@ public class ScaffoldBuilder {
 		mapping.put("updateStatement", tableInfo.getUpdateStatement());
 
 		mapping.put("updateMapModel", tableInfo.getUpdateMapModel());
+
 	}
 	
 	public String getModelPath() {
@@ -161,15 +162,17 @@ public class ScaffoldBuilder {
 		list.add(new FileGenerator(getModelPath(), clzName, "Model.txt", mapping));
 		list.add(new FileGenerator(getFromPath(), clzName+"DTO", "Form.txt", mapping));
 		list.add(new FileGenerator(getFromPath(), clzName+"Query", "query.txt", mapping));
-//		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"SearchCondition", "SearchCondition.txt", mapping));
-//		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"Response", "Response.txt", mapping));
-
 		//page
 		list.add(new FileGenerator(pkgNameWeb + "page."+businessName+"."+StringUtils.uncapitalize(clzName), "index", "pageIndex.txt", mapping,"jsp"));
 		list.add(new FileGenerator(pkgNameWeb + "page."+businessName+"."+StringUtils.uncapitalize(clzName), "edit", "pageEdit.txt", mapping,"jsp"));
+		//sql文件
+		list.add(new FileGenerator(pkgNameWeb + "sql", clzName, "sql.txt", mapping,"sql"));
+
 		//		list.add(new FileGenerator(PKG_PREFIX + "model."+ mpthName, clzName, "Model.txt", mapping));
-//		list.add(new FileGenerator(pkgName + "model."+ businessName, clzName, "Model.txt", mapping));
-//		list.add(new FileGenerator(pkgName +"."+ PKG_SUFFIX_MAPPER, clzName+"Mapper", "SqlMap.txt", mapping, "xml"));
+		//		list.add(new FileGenerator(pkgName + "model."+ businessName, clzName, "Model.txt", mapping));
+		//		list.add(new FileGenerator(pkgName +"."+ PKG_SUFFIX_MAPPER, clzName+"Mapper", "SqlMap.txt", mapping, "xml"));
+		// 		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"SearchCondition", "SearchCondition.txt", mapping));
+		//		list.add(new FileGenerator(pkgName + "model."+mpthName, clzName+"Response", "Response.txt", mapping));
 		return list;
 	}
 

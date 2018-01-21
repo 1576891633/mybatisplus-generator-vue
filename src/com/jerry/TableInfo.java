@@ -415,6 +415,12 @@ public class TableInfo {
 		return sb.toString();
 	}
 
+	public String getInsertPurviewSql() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("").append(ENDL);
+		return sb.toString();
+	}
+
 	public String getOtherCondition() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(TAB2).append("<where>");

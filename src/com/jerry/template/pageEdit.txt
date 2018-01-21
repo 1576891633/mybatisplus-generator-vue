@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <%@include file="/WEB-INF/view/base.jsp"%>
@@ -22,7 +23,14 @@ layui.config({
 
     //监听提交
     form.on('submit(formSubmit)', function(data){
-        axios.post("${businessName}/${clzNameLC}/save",$("#submitForm").serialize())
+        var val = $("#id").val();
+        var url;
+        if (val!=null && val!=""){
+            url ="${businessName}/${clzNameLC}/update";
+        }else {
+            url ="${businessName}/${clzNameLC}/save";
+        }
+        axios.post(url,$("#submitForm").serialize())
             .then(function (data) {
                 if (data.status) {
                     parent._public()

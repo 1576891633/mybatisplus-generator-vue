@@ -1,5 +1,7 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<!DOCTYPE html>
 <html>
 <head>
     <%@include file="/WEB-INF/view/base.jsp"%>
@@ -12,8 +14,12 @@
 ${pageQueryFrom}
             </blockquote>
             <div style="text-align: right">
+            <shiro:hasPermission name="${tblName}:add">
                 <a class="layui-btn layui-btn-normal" onclick="detail()">添加</a>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="${tblName}:del">
                 <a class="layui-btn layui-btn-danger" onclick="deletes()">批量删除</a>
+            </shiro:hasPermission>
             </div>
         </div>
 
@@ -32,6 +38,7 @@ layui.config({
     base: basePath+'/static/common/'
 }).use(['table', "layer", "jquery", "common"], function () {
     var table = layui.table,$=layui.jquery,layer=layui.layer,common = layui.common,form = layui.form
+
     //数据路径
     var dataUrl = basePath + "${businessName}/${clzNameLC}/getTableData";
     //加载表格
@@ -45,7 +52,12 @@ layui.config({
         even:true,
         cols: [[
             ${pageIndexCols}
-        ]]
+        ]],
+        done: function(res, curr, count){
+            if (res.status != 200){
+                layer.msg(res.msg,{icon:5});
+            }
+        }
     })
 
     /**
@@ -55,10 +67,17 @@ layui.config({
 
         var div = $("<div></div>");
 
+        <shiro:hasPermission name="${tblName}:edit">
         div.append('<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>')
-
+        </shiro:hasPermission>
+        <shiro:hasPermission name="${tblName}:del">
         div.append('<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>')
-
+        </shiro:hasPermission>
+        <shiro:lacksPermission name="${tblName}:edit">
+        	<shiro:lacksPermission name="${tblName}:del">
+                div.append("<span>无权操作</span>")
+        	</shiro:lacksPermission>
+        </shiro:lacksPermission>
         return div;
     }
 
@@ -88,7 +107,6 @@ layui.config({
             batchDelete(data.id)
         }
     });
-
     /**
      * 页面详情
      */
@@ -100,7 +118,7 @@ layui.config({
         _public = function () {layer.close(open);reloadData();}
     }
 
-
+<shiro:hasPermission name="${tblName}:del">
     //删除和批量删除
     deletes = function() {
         var checkIds = common.getTableCheckIds("table");
@@ -117,6 +135,6 @@ layui.config({
                 .then(function(response) {if (response.status){reloadData();layer.close(index)}});
         });
     }
-
+</shiro:hasPermission>
 })
 </script>
