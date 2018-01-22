@@ -2,10 +2,8 @@ package ${pkgPath};
 
 import ${modelPath};
 
-public class ${clzName}DTO{
-${fieldsDeclareInfo}
-${fieldsGetterSetter}
+public class ${clzName}DTO extends ${clzName}{
+
 ${fieldsModelToFrom}
 ${fieldsFromToModel}
-${fieldsToString}
 }

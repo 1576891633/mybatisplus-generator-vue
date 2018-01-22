@@ -162,10 +162,11 @@ public class TableInfo {
 		sb.append(TAB2).append("return \""+clzName+"{ \"+ ").append(ENDL);
 		for (FieldInfo field : cop) {
 			String name = field.getName();
+			String aCase = upperCase(name);
 			if (field.getName().equalsIgnoreCase(ID)){
-				sb.append(TAB3).append("\""+name+"=\"+").append(name+"+").append(ENDL);
+				sb.append(TAB3).append("\""+name+"=\"+").append("get"+aCase+"()+").append(ENDL);
 			}else {
-				sb.append(TAB3).append("\","+name+"=\'\"+").append(name+"+\"'\"").append("+").append(ENDL);
+				sb.append(TAB3).append("\","+name+"=\'\"+").append("get"+aCase+"()+\"'\"").append("+").append(ENDL);
 			}
 		}
 		sb.append(TAB3).append("\"}\";").append(ENDL).append(TAB).append("}");
@@ -182,7 +183,7 @@ public class TableInfo {
 		for (FieldInfo field : cop) {
 			String name = field.getName();
 			String aCase = upperCase(name);
-			sb.append(TAB2).append("model.set"+aCase+"(this."+name+")").append(";").append(ENDL);
+			sb.append(TAB2).append("model.set"+aCase+"(get"+aCase+"())").append(";").append(ENDL);
 		}
 		sb.append(TAB2).append("return model;").append(ENDL).append(TAB).append("}").append(ENDL);
 		return sb.toString();
@@ -201,7 +202,7 @@ public class TableInfo {
 		for (FieldInfo field : cop) {
 			String name = field.getName();
 			String aCase = upperCase(name);
-			sb.append(TAB2).append("this."+name+" = "+lowerCase+".get"+aCase+"()").append(";").append(ENDL);
+			sb.append(TAB2).append("set"+aCase+"("+lowerCase+".get"+aCase+"())").append(";").append(ENDL);
 		}
 		sb.append(TAB).append("}").append(ENDL);
 		return sb.toString();
