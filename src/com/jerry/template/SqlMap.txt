@@ -63,7 +63,7 @@
 	<update id="deleteByIds" parameterType="Object[]">
 		update
 		<include refid="tableNameSql" />
-		set  deleted = '1'
+		set  deleted = 1
 		where ${primaryKey} in
 		<foreach index="index" item="item" collection="array"
 			separator="," open="(" close=")">#{item}</foreach>

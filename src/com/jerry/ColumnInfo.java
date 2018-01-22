@@ -88,7 +88,7 @@ public class ColumnInfo {
 			case "BIGINT":result = "Long";break;
 			case "FLOAT":result = "Float";break;
 			case "DOUBLE":result = "Double";break;
-			case "DECIMAL":result = "BigDecimal";break;
+			case "DECIMAL":result = "java.math.BigDecimal";break;
 			case "ID":result = "Long";break;
 			case "DATE":result = "java.sql.Date";break;
 			case "TIME":result = "java.sql.Time";break;
