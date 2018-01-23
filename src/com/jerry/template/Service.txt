@@ -65,12 +65,12 @@ public interface I${clzName}Service {
 	 * 新增
 	 * @return 新增id
 	 */
-	${parserKeyType} save(${clzName} ${clzNameLC});
+	${parserKeyType} save(${formName} ${clzNameLC});
 
 	 /**
 	 * 修改
 	 */
-	int update(${clzName} ${clzNameLC});
+	int update(${formName} ${clzNameLC});
 
 	 /**
 	 * 删除

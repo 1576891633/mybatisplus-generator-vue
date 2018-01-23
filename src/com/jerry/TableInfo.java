@@ -215,7 +215,11 @@ public class TableInfo {
 		for (FieldInfo field : fields) {
 			String name = field.getName();
 			if (!name.equals("deleted") && !name.equals("updateDate")){
-				sb.append(TAB3).append("{field: '"+name+"', title: '"+paresRemarks(field.getRemarks())+"', fixed: 'left',unresize:true},").append(ENDL);
+				if (name.equals("createDate")){
+					sb.append(TAB3).append("{field: '"+name+"', title: '"+paresRemarks(field.getRemarks())+"', fixed: 'left',unresize:true,templet:createDateFormat()},").append(ENDL);
+				}else {
+					sb.append(TAB3).append("{field: '"+name+"', title: '"+paresRemarks(field.getRemarks())+"', fixed: 'left',unresize:true},").append(ENDL);
+				}
 			}
 		}
 		sb.append(TAB3).append("{title: \"操作\", fixed: \"left\", toolbar: getBtn()}");

@@ -98,6 +98,9 @@ layui.config({
         reloadData()
     }
 
+    //创建时间格式化
+    function createDateFormat() {layui.laytpl.toDateString  = common.formatDate;return '<div>{{ layui.laytpl.toDateString(d.createDate) }}</div>';}
+
     //监听工具条
     table.on('tool(tableEvent)', function (obj) {
         var data = obj.data;

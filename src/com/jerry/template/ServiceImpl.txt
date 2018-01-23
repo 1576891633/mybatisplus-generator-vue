@@ -30,6 +30,7 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 * @param ${clzNameLC} 查询条件
 	 * @return
 	 */
+	@Override
     public PageInfo findByPage(int page, int size,${queryName} ${clzNameLC},String sort){
         PageHelper.startPage(page, size);
         PageHelper.orderBy(sort);
@@ -48,6 +49,7 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 * @param ${clzNameLC} 查询条件
 	 * @return
 	 */
+	@Override
     public PageInfo findByPage(int page, int size,${queryName} ${clzNameLC}){
         PageHelper.startPage(page, size);
         PageHelper.orderBy("create_date desc");
@@ -66,6 +68,7 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 * @param sort 排序条件
 	 * @return
 	 */
+	@Override
     public PageInfo findByPage(int page, int size,String sort){
         PageHelper.startPage(page, size);
         PageHelper.orderBy(sort);
@@ -83,6 +86,7 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 * @param size 每页条数
 	 * @return
 	 */
+	@Override
     public PageInfo findByPage(int page, int size){
         PageHelper.startPage(page, size);
         PageHelper.orderBy("create_date desc");
@@ -98,6 +102,7 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 * 列表查询
 	 * @param ${clzNameLC} 查询条件
 	 */
+	@Override
     public List<${formName}> findAll(${queryName} ${clzNameLC}){
         List<${formName}> response =new ArrayList<>();
         ${clzNameLC}Mapper.findAll(${clzNameLC}).stream().forEach(item->response.add(new ${formName}(item)));
@@ -107,6 +112,7 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	/**
 	 * 列表查询
 	 */
+	@Override
     public List<${formName}> findAll(){
         List<${formName}> response =new ArrayList<>();
         ${clzNameLC}Mapper.findAll(new ${queryName}()).stream().forEach(item->response.add(new ${formName}(item)));
@@ -116,6 +122,7 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	/**
 	 * 单个查询
 	 */
+	@Override
     public ${formName} getById(${parserKeyType} ${parserKey}){
         return new ${formName}(${clzNameLC}Mapper.getById(${parserKey}));
     }
@@ -124,28 +131,28 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 * 新增
 	 * @return 新增id
 	 */
-    public ${parserKeyType} save(${clzName} ${clzNameLC}){
-        if (${clzNameLC}.getId()!=null){
-            update(${clzNameLC});
-        }else {
-            ${clzNameLC}Mapper.save(${clzNameLC});
-        }
-        return ${clzNameLC}.getId();
+	@Override
+    public ${parserKeyType} save(${formName} ${clzNameLC}){
+        ${clzName} model= ${clzNameLC}.to${clzName}();
+        ${clzNameLC}Mapper.save(model);
+        return model.getId();
     }
 
 	/**
 	 * 修改
 	 */
-    public int update(${clzName} ${clzNameLC}){
+	@Override
+    public int update(${formName} ${clzNameLC}){
         if(${clzNameLC}.getId()==null){
             throw new ServiceException("参数错误");
         }
-        return ${clzNameLC}Mapper.update(${clzNameLC});
+        return ${clzNameLC}Mapper.update(${clzNameLC}.to${clzName}());
     }
 
 	/**
 	 * 删除
 	 */
+	@Override
     public int deleteByIds(${parserKeyType}[] ids){
         return ${clzNameLC}Mapper.deleteByIds(ids);
     }

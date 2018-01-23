@@ -42,6 +42,7 @@ public class ${clzName}Controller{
 	@GetMapping("/getTableData")
 	@ResponseBody
 	public TableDataResponse getTableData(@ModelAttribute ${queryName} ${clzNameLC},
+                                          @RequestAttribute(required = false)Long operatorId,
                                           @RequestParam(value = "page", defaultValue = "0", required = false) int page,
                                           @RequestParam(value = "limit", defaultValue = "15", required = false) int limit) {
 		return new TableDataResponse(${clzNameLC}Service.findByPage(page,limit,${clzNameLC}));
@@ -91,7 +92,7 @@ public class ${clzName}Controller{
 	@PostMapping("/save")
 	@ResponseBody
 	public BaseResponse save(@ModelAttribute ${formName} ${clzNameLC}){
-		${clzNameLC}Service.save(${clzNameLC}.to${clzName}());
+		${clzNameLC}Service.save(${clzNameLC});
 		return new BaseResponse("保存成功");
 	}
 	
@@ -103,7 +104,7 @@ public class ${clzName}Controller{
 	@PostMapping("/update")
 	@ResponseBody
 	public BaseResponse update(@ModelAttribute ${formName} ${clzNameLC}) {
-		${clzNameLC}Service.update(${clzNameLC}.to${clzName}());
+		${clzNameLC}Service.update(${clzNameLC});
 		return new BaseResponse("修改成功");
 	}
 
