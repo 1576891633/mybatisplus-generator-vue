@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="${pkgPath}.${clzName}Mapper">
 	<resultMap id="BaseResultMap" type="${clzNameLC}">
-		${resultMap}
+${resultMap}
 	</resultMap>
 
 	<sql id="tableNameSql">
@@ -16,22 +16,14 @@
 	<sql id="commonSelectColumnsPrefixAliase">
 		${selectStatement}
 	</sql>
-	
+
 	<sql id="conditionOnlyId">
-		${primaryKey} = #{${parserKey}}
+		p.${primaryKey} = #{${parserKey}}
 	</sql>
 
 	<sql id="mainSql">
 		SELECT
 		<include refid="commonSelectColumnsPrefix" />
-		FROM
-		<include refid="tableNameSql" />
-		p
-	</sql>
-	
-	<sql id="mainSqlAliase">
-		SELECT
-		<include refid="commonSelectColumnsPrefixAliase" />
 		FROM
 		<include refid="tableNameSql" />
 		p
@@ -73,5 +65,6 @@
         <include refid="mainSql" />
 ${otherCondition}
     </select>
+
 
 </mapper>

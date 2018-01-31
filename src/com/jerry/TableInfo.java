@@ -468,11 +468,11 @@ public class TableInfo {
 
 	public String getColumnNames() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(primaryKey + ",");
+		sb.append("p."+primaryKey + ",");
 		ColumnInfo column = null;
 		for (int i = 0; i < columns.size(); i++) {
 			column = columns.get(i);
-			sb.append(column.getName());
+			sb.append("p."+column.getName());
 			if (i + 1 != columns.size()) {
 				sb.append(",");
 			}

@@ -2,6 +2,7 @@ package ${pkgPath};
 
 import ${modelPath};
 import ${queryPath};
+import ${formPath};
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +15,12 @@ public interface ${clzName}Mapper {
      * @return
      */
     List<${clzName}> findAll(${queryName} ${clzNameLC});
+
+    /**
+     * 列表查询-直接返回DTO
+     * @return
+     */
+    List<${formName}> findAllToDTO(${queryName} ${clzNameLC});
 
 	/**
 	 * 单个查询
