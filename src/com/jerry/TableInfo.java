@@ -392,8 +392,8 @@ public class TableInfo {
 		sb.append(TAB3);
 		sb.append("<if test=\"" + parserKey + "!=null and " + parserKey + " != ''\">");
 		sb.append(ENDL);
-		sb.append(TAB3);
-		sb.append("<include refid=\"conditionOnlyId\" />");
+		sb.append(TAB4);
+		sb.append(primaryKey+"= #{"+parserKey+"}");
 		sb.append(ENDL);
 		sb.append(TAB3);
 		sb.append("</if>");
