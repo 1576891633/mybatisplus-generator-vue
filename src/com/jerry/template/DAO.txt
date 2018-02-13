@@ -16,12 +16,6 @@ public interface ${clzName}Mapper {
      */
     List<${clzName}> findAll(${queryName} ${clzNameLC});
 
-    /**
-     * 列表查询-直接返回DTO
-     * @return
-     */
-    List<${formName}> findAllToDTO(${queryName} ${clzNameLC});
-
 	/**
 	 * 单个查询
 	 */
