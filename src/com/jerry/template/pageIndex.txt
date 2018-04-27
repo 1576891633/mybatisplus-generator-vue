@@ -34,9 +34,7 @@ ${pageQueryFrom}
 //全局
 var _public;
 
-layui.config({
-    base: basePath+'/static/common/'
-}).use(['table', "layer", "jquery", "common"], function () {
+layui.use(['table', "layer", "jquery", "common"], function () {
     var table = layui.table,$=layui.jquery,layer=layui.layer,common = layui.common,form = layui.form
 
     //数据路径

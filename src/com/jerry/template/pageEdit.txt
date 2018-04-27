@@ -16,9 +16,7 @@ ${pageEditFrom}
 </html>
 <script type="application/javascript">
 
-layui.config({
-    base: basePath+'/static/common/'
-}).use(["layer", "jquery", "common", "form",], function () {
+layui.use(["layer", "jquery", "common", "form",], function () {
     var $=layui.jquery,jquery = layui.jquery,common = layui.common,form= layui.form;
 
     //监听提交
