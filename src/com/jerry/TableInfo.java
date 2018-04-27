@@ -211,18 +211,18 @@ public class TableInfo {
 
 	public String getPageIndexCols(){
 		StringBuffer sb = new StringBuffer();
-		sb.append("{type: 'checkbox',  fixed: 'left'},").append(ENDL);
+		sb.append("{type: 'checkbox',minWidth:80,  fixed: 'left'},").append(ENDL);
 		for (FieldInfo field : fields) {
 			String name = field.getName();
 			if (!name.equals("deleted") && !name.equals("updateDate")){
 				if (name.equals("createDate")){
-					sb.append(TAB3).append("{field: '"+name+"', title: '"+paresRemarks(field.getRemarks())+"', fixed: 'left',unresize:true,templet:createDateFormat()},").append(ENDL);
+					sb.append(TAB3).append("{field: '"+name+"', title: '"+paresRemarks(field.getRemarks())+"', fixed: 'left',templet:createDateFormat()},").append(ENDL);
 				}else {
-					sb.append(TAB3).append("{field: '"+name+"', title: '"+paresRemarks(field.getRemarks())+"', fixed: 'left',unresize:true},").append(ENDL);
+					sb.append(TAB3).append("{field: '"+name+"', title: '"+paresRemarks(field.getRemarks())+"'},").append(ENDL);
 				}
 			}
 		}
-		sb.append(TAB3).append("{title: \"操作\", fixed: \"left\", toolbar: getBtn()}");
+		sb.append(TAB3).append("{title: \"操作\", fixed: \"right\", toolbar: getBtn()}");
 		return sb.toString();
 	}
 
