@@ -124,7 +124,7 @@ public class ${clzName}ServiceImpl implements I${clzName}Service {
 	 */
 	@Override
     public ${formName} getById(${parserKeyType} ${parserKey}){
-      ${clzName} ${clzNameLC} = ${clzNameLC}Mapper.getById(${parserKey})
+      ${clzName} ${clzNameLC} = ${clzNameLC}Mapper.getById(${parserKey});
         if (${clzNameLC} == null){
             return null;
         }
