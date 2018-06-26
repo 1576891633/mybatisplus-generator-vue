@@ -2,10 +2,10 @@
 -- 2.0版本的项目支持
 
 -- 首页
-INSERT INTO `sys_purview` (`name`, `identification`, `type`, `url`) VALUES ('${tblName}首页', '${tblName}:manager', 2, "/${businessName}/${clzNameLC}/index");
+INSERT INTO `s_purview` (`name`, `identification`, `type`, `url`) VALUES ('${tblName}首页', '${tblName}:manager', 2, "/${businessName}/${clzNameLC}/index");
 
 -- CRUD
-INSERT INTO `sys_purview` (`name`, `identification`, `type`, `url`, `parent_id`) VALUES ('${tblName}新增', '${tblName}:add', 3, "/${businessName}/${clzNameLC}/save", (select a.id from (select max(id) id FROM sys_purview where url = "/${businessName}/${clzNameLC}/index") a));
-INSERT INTO `sys_purview` (`name`, `identification`, `type`, `url`, `parent_id`) VALUES ('${tblName}修改', '${tblName}:edit', 3, "/${businessName}/${clzNameLC}/update", (select a.id from (select max(id) id FROM sys_purview where url = "/${businessName}/${clzNameLC}/index") a));
-INSERT INTO `sys_purview` (`name`, `identification`, `type`, `url`, `parent_id`) VALUES ('${tblName}删除', '${tblName}:del', 3, "/${businessName}/${clzNameLC}/delete", (select a.id from (select max(id) id FROM sys_purview where url = "/${businessName}/${clzNameLC}/index") a));
-INSERT INTO `sys_purview` (`name`, `identification`, `type`, `url`, `parent_id`) VALUES ('${tblName}列表', '${tblName}:list', 3, "/${businessName}/${clzNameLC}/getTableData", (select a.id from (select max(id) id FROM sys_purview where url = "/${businessName}/${clzNameLC}/index") a));
+INSERT INTO `s_purview` (`name`, `identification`, `type`, `url`, `parent_id`) VALUES ('${tblName}新增', '${tblName}:add', 3, "/${businessName}/${clzNameLC}/save", (select a.id from (select max(id) id FROM s_purview where url = "/${businessName}/${clzNameLC}/index") a));
+INSERT INTO `s_purview` (`name`, `identification`, `type`, `url`, `parent_id`) VALUES ('${tblName}修改', '${tblName}:edit', 3, "/${businessName}/${clzNameLC}/update", (select a.id from (select max(id) id FROM s_purview where url = "/${businessName}/${clzNameLC}/index") a));
+INSERT INTO `s_purview` (`name`, `identification`, `type`, `url`, `parent_id`) VALUES ('${tblName}删除', '${tblName}:del', 3, "/${businessName}/${clzNameLC}/delete", (select a.id from (select max(id) id FROM s_purview where url = "/${businessName}/${clzNameLC}/index") a));
+INSERT INTO `s_purview` (`name`, `identification`, `type`, `url`, `parent_id`) VALUES ('${tblName}列表', '${tblName}:list', 3, "/${businessName}/${clzNameLC}/getTableData", (select a.id from (select max(id) id FROM s_purview where url = "/${businessName}/${clzNameLC}/index") a));

@@ -48,6 +48,13 @@ public class BeanRobot extends JFrame {
 	private HashMap dbInfoMap;
 	String[] titles = {"选择","表格名称"} ;
 	
+	
+	private static final String ipStr = "rm-bp1272dl8344671v5o.mysql.rds.aliyuncs.com";
+	private static final String dbName = "houseFinance";
+	private static final String user = "root";
+	private static final String pwd = "48420291lixilU";
+	private static final String businessName = "";
+	
 	//配置文件信息
 	Map<String,HashMap<String,String>> dbMap;
 	public BeanRobot() {
@@ -65,7 +72,7 @@ public class BeanRobot extends JFrame {
 		panel.add(lblIp);
 
 		ipFiled = new JTextField();
-		ipFiled.setText("localhost");
+		ipFiled.setText(ipStr);
 		ipFiled.setBounds(146, 10, 147, 21);
 		panel.add(ipFiled);
 		ipFiled.setColumns(10);
@@ -88,7 +95,7 @@ public class BeanRobot extends JFrame {
 
 		dbNameFiled = new JTextField();
 		dbNameFiled.setBounds(146, 68, 147, 21);
-		dbNameFiled.setText("changepile");
+		dbNameFiled.setText(dbName);
 		panel.add(dbNameFiled);
 		dbNameFiled.setColumns(10);
 
@@ -97,7 +104,7 @@ public class BeanRobot extends JFrame {
 		panel.add(userLabel);
 
 		userField = new JTextField();
-		userField.setText("root");
+		userField.setText(user);
 		userField.setBounds(145, 97, 148, 21);
 		panel.add(userField);
 		userField.setColumns(10);
@@ -107,7 +114,7 @@ public class BeanRobot extends JFrame {
 		panel.add(pwdLabel);
 
 		pwdField = new JTextField();
-		pwdField.setText("root");
+		pwdField.setText(pwd);
 		pwdField.setBounds(145, 126, 147, 21);
 		panel.add(pwdField);
 		pwdField.setColumns(10);
@@ -117,7 +124,7 @@ public class BeanRobot extends JFrame {
 		panel.add(packLabel);
 
 		packField = new JTextField();
-		packField.setText("charge");
+		packField.setText(businessName);
 		packField.setBounds(146, 155, 147, 21);
 		panel.add(packField);
 		packField.setColumns(10);

@@ -17,7 +17,7 @@ import ${servicePath};
 
 
 @Service
-public class ${clzName}ServiceImpl implements I${clzName}Service {
+public class ${clzName}ServiceImpl implements ${clzName}Service {
 
 	@Autowired
     private ${clzName}Mapper ${clzNameLC}Mapper;

@@ -140,7 +140,7 @@ public class ScaffoldBuilder {
 	}
 
 	public String getManagerPath() {
-		return pkgName + PKG_SUFFIX_MANAGER + businessName + ".I" + clzName + "Service";
+		return pkgName + PKG_SUFFIX_MANAGER + businessName + "." + clzName + "Service";
 	}
 
 	public String getManagerImplPath() {
@@ -154,7 +154,7 @@ public class ScaffoldBuilder {
 		list.add(new FileGenerator(pkgName + PKG_SUFFIX_DAO+businessName, clzName + "Mapper", "DAO.txt", mapping));
 		list.add(new FileGenerator(pkgName + PKG_SUFFIX_DAO + businessName, clzName+"Mapper", "SqlMap.txt", mapping, "xml"));
 		//service
-		list.add(new FileGenerator(pkgName + "service."+businessName, "I"+clzName + "Service", "Service.txt", mapping));
+		list.add(new FileGenerator(pkgName + "service."+businessName, clzName + "Service", "Service.txt", mapping));
 		list.add(new FileGenerator(pkgName + "service."+businessName+".impl", clzName + "ServiceImpl", "ServiceImpl.txt", mapping));
 		//controller
 		list.add(new FileGenerator(pkgNameWeb + "controller."+businessName, clzName + "Controller", "Controller.txt", mapping));
