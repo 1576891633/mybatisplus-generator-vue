@@ -4,8 +4,9 @@ import org.apache.ibatis.type.Alias;
 import java.io.Serializable;
 
 @Alias("${clzNameLC}")
-public class ${clzName} implements Serializable {
+public class ${clzName}  implements Serializable {
 ${fieldsDeclareInfo}
 ${fieldsGetterSetter}
 ${fieldsToString}
+
 }

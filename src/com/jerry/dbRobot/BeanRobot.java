@@ -41,7 +41,7 @@ public class BeanRobot extends JFrame {
 	private JTextField pwdField;
 	private JComboBox dbBox;
 	DbUtil dbutil = new DbUtil() ;
-	BeanUtil butil = new BeanUtil();
+	
 	JLabel labelInfo ;
 	private JTable  jtable;
 	private MyTableModel  tableModel ;
@@ -346,6 +346,7 @@ public class BeanRobot extends JFrame {
 
 		return dbInfoMap;
 	}
+	
 	private void close() {
 		System.out.println("关闭事件");
 	}

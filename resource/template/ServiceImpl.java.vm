@@ -1,0 +1,29 @@
+package ${package}.service.${moduleName}.impl;
+
+import org.springframework.stereotype.Service;
+import java.util.Map;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import ${mainPath}.common.utils.PageUtils;
+import ${mainPath}.common.utils.Query;
+
+import ${package}.dao.${moduleName}.${className}Dao;
+import ${package}.entity.${moduleName}.${className};
+import ${package}.service.${moduleName}.${className}Service;
+
+
+@Service
+public class ${className}ServiceImpl extends ServiceImpl<${className}Dao, ${className}> implements ${className}Service {
+
+    @Override
+    public PageUtils queryPage(Map<String, Object> params) {
+        Page<${className}Entity> page = this.selectPage(
+                new Query<${className}>(params).getPage(),
+                new EntityWrapper<${className}>()
+        );
+
+        return new PageUtils(page);
+    }
+
+}

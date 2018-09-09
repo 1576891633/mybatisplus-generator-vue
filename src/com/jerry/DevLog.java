@@ -65,4 +65,8 @@ public class DevLog {
 		if (log.isFatalEnabled())
 			log.fatal(paramObject, paramThrowable);
 	}
+	
+	public static void main(String[] args) {
+		debug("nihao");
+	}
 }

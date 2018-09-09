@@ -30,6 +30,8 @@ public class ScaffoldGen {
 	private final String pkgName;
 	private final String clzName;
 	private final String tblName;
+	
+	//model name
 	private final String mpthName;
 	public ScaffoldGen(String pkgName, String clzName, String tblName,String mpthName, Map<String, String> dbInfo) {
 		this.pkgName = pkgName;
