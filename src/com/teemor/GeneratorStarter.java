@@ -1,7 +1,7 @@
 package com.teemor;
 
 
-import com.jerry.StringUtil;
+
 import com.teemor.DAO.TableDao;
 import com.teemor.DAO.TableDaoImpl;
 import com.teemor.generator.SQLConfig;
@@ -45,7 +45,7 @@ public class GeneratorStarter extends JFrame {
     
     
     private static final String ipStr = "rm-bp1272dl8344671v5o.mysql.rds.aliyuncs.com";
-    private static final String dataBase = "houseFinance";
+    private static final String dataBase = "partTimeJob";
     private static final String user = "root";
     private static final String pwd = "48420291lixilU";
     private static final String businessName = "";

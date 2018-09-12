@@ -1,0 +1,137 @@
+<template>
+    <div class="app-container">
+
+        <div class="filter-container">
+            <el-form :inline="true" :model="listQuery" ref="listQuery" label-width="100px">
+
+                #foreach ($column in $columns)
+                    #if($column.attrType == "String")
+                        <el-form-item prop="${column.columnName}" autocomplete="off">
+                            <el-input @keyup.enter.native="fetchData" style="width: 200px;" clearable class="filter-item" placeholder="$column.comments" v-model="listQuery.${column.columnName}"></el-input>
+                        </el-form-item>
+                    #end
+                #end
+
+                <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="search">搜索</el-button>
+                <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="restListQuery">重置</el-button>
+            </el-form>
+        </div>
+
+        <el-table :data="list" s v-loading.body="listLoading" element-loading-text="Loading" border fit
+                  highlight-current-row>
+
+
+            #foreach ($column in $columns)
+                <el-table-column label="$column.comments" align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.$column.attrnam }}
+                    </template>
+                </el-table-column>
+            #end
+
+
+
+            <el-table-column label="操作" align="center" width="300px" fixed="right">
+                <template slot-scope="scope">
+                    <el-button class="filter-item" @click="pushPath(scope.row.id)" type="primary" size="mini" icon="el-icon-edit">查看</el-button>
+                    <el-button class="filter-item" style="margin-left: 10px" @click="toEdit(scope.row.id)" type="primary" size="mini"
+                               icon="el-icon-edit">编辑
+                    </el-button>
+                    <el-button class="filter-item" style="margin-left: 10px"  @click="delete(scope.row.id)" type="danger" size="mini" icon="el-icon-delete">删除</el-button>
+                </template>
+            </el-table-column>
+
+
+        </el-table>
+        <div class="block" style="float: right;margin-top:1%">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :page-sizes="[10, 20, 40, 60]"
+                    :page-size="listQuery.size"
+                    :current-page="listQuery.current"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="listTotal">
+            </el-pagination>
+        </div>
+    </div>
+</template>
+
+<script>
+    import { list } from 'api/userTable'
+    import request from '@/utils/request'
+
+    export default {
+        name: 'index',
+        data() {
+            return {
+                list: null,
+                listTotal: 600,
+                listLoading: false,
+                listQuery: {
+                    current: 1,
+                    size: 10,
+
+                    username: '',
+
+                }
+            }
+        },
+        methods: {
+            fetchData() {
+                this.listLoading = true
+                list(this.listQuery).then(response => {
+                    this.list = response.data
+                    this.listTotal = response.total
+                    this.listLoading = false
+                })
+            },
+            handleSizeChange(val) {
+                this.listQuery.size = val
+                this.fetchData()
+            },
+            handleCurrentChange(val) {
+                this.listQuery.current = val
+                this.fetchData()
+            },
+            search() {
+                this.listQuery.current = 1
+                this.fetchData()
+            },
+            restListQuery() {
+                this.$refs['listQuery'].resetFields()
+                this.fetchData()
+            },
+            toEdit(id) {
+                this.$router.push({
+                name: 'user_parttime_edit',
+                query: {
+                    id: id
+                }
+                })
+            },
+            delete(id){
+                this.$confirm('确认删除？')
+                        .then(_ => {
+                            request({
+                                url: '/company/deleteCompany/' + id,
+                                method: 'get'
+                            }).then(response => {
+                                this.$message(response.message)
+                                this.fetchData()
+                            })
+                        })
+                        .catch(_ => {
+                            this.$message(response.message)
+                        });
+            }
+        },
+        methods() {
+            this.fetchData()
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

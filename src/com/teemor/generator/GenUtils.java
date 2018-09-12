@@ -45,8 +45,6 @@ import java.util.*;
 public class GenUtils {
     
     
-   
-    
     /**
      * 获取模板
      *
@@ -54,12 +52,15 @@ public class GenUtils {
      */
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
-        templates.add("template/Entity.java.vm");
-        templates.add("template/Dao.java.vm");
-        templates.add("template/Dao.xml.vm");
-        templates.add("template/Service.java.vm");
-        templates.add("template/ServiceImpl.java.vm");
-        templates.add("template/Controller.java.vm");
+//        templates.add("template/Entity.java.vm");
+//        templates.add("template/Dao.java.vm");
+//        templates.add("template/Dao.xml.vm");
+//        templates.add("template/Service.java.vm");
+//        templates.add("template/ServiceImpl.java.vm");
+//        templates.add("template/Controller.java.vm");
+//        templates.add("template/query.java.vm");
+        templates.add("template/index.vue.vm");
+        
 //        templates.add("template/list.html.vm");
 //        templates.add("template/list.js.vm");
 //        templates.add("template/menu.sql.vm");
@@ -132,7 +133,7 @@ public class GenUtils {
         }
     }
     
-   
+    
     /**
      * 构建数据库表==>类名
      * 字段名==>属性名
@@ -147,10 +148,16 @@ public class GenUtils {
         boolean hasBigDecimal = false;
         //表名转换成Java类名
         String className = tableToJava(tableEntity.getTableName(), config);
+        String excludeTableFiled = config.getString("excludeTableFiled");
         tableEntity.setClassName(className);
         tableEntity.setClassname(StringUtils.uncapitalize(className));
         tableEntity.setColumns(columnEntityList);
-        for (ColumnEntity columnEntity : columnEntityList) {
+        
+        Iterator<ColumnEntity> iterator = columnEntityList.iterator();
+        while (iterator.hasNext()) {
+            ColumnEntity columnEntity = iterator.next();
+            String columnName = columnEntity.getColumnName();
+            
             //列名转换成Java属性名
             String attrName = columnToJava(columnEntity.getColumnName());
             columnEntity.setAttrName(attrName);
@@ -162,14 +169,19 @@ public class GenUtils {
             if (!hasBigDecimal && attrType.equals("BigDecimal")) {
                 hasBigDecimal = true;
             }
-            //是否主键
-            if ("PRI".equalsIgnoreCase(columnEntity.getColumnKey()) && tableEntity.getPk() == null) {
+            if ("PRI".equalsIgnoreCase(columnEntity.getColumnKey())
+                    && tableEntity.getPk() == null) {
                 tableEntity.setPk(columnEntity);
             }
+            if (StringUtils.isNotBlank(columnName) && excludeTableFiled.contains(columnName)) {
+                iterator.remove();
+                continue;
+            }
+            
         }
         //没主键，则第一个字段为主键
         if (tableEntity.getPk() == null) {
-            tableEntity.setPk(tableEntity.getColumns().get(0));
+            throw new RuntimeException("没有主键，解析失败");
         }
         return hasBigDecimal;
     }
@@ -249,8 +261,12 @@ public class GenUtils {
             return packagePath + "entity" + File.separator + moduleName + File.separator + className + ".java";
         }
         
+        if (template.contains("query.java.vm")) {
+            return packagePath + "request" + File.separator + moduleName + File.separator + className + "Request.java";
+        }
+        
         if (template.contains("Dao.java.vm")) {
-            return packagePath + "dao" + File.separator + moduleName + File.separator + className + "Dao.java";
+            return packagePath + "dao" + File.separator + moduleName + File.separator + className + "Mapper.java";
         }
         
         if (template.contains("Service.java.vm")) {
@@ -269,7 +285,7 @@ public class GenUtils {
             if (xmlToResource) {
                 return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName + File.separator + className + "Dao.xml";
             } else {
-                return packagePath + "dao" + File.separator + moduleName + File.separator + className + "Dao.xml";
+                return packagePath + "dao" + File.separator + moduleName + File.separator + className + "Mapper.xml";
             }
         }
         

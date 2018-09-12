@@ -144,7 +144,9 @@ public class TableDaoImpl implements TableDao {
                 columnEntity.setDataType(dataType);
                 columnEntity.setComments(columnComment);
                 columnEntity.setExtra(extra);
+                columnEntity.setColumnKey(columnKey);
                 columnEntityList.add(columnEntity);
+                
                 
             }
         } catch (SQLException e) {
