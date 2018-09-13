@@ -45,7 +45,7 @@ public class GeneratorStarter extends JFrame {
     
     
     private static final String ipStr = "rm-bp1272dl8344671v5o.mysql.rds.aliyuncs.com";
-    private static final String dataBase = "partTimeJob";
+    private static final String dataBase = "cy_social";
     private static final String user = "root";
     private static final String pwd = "48420291lixilU";
     private static final String businessName = "";

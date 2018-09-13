@@ -1,6 +1,8 @@
 package ${package}.service.${moduleName}.impl;
 
 import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import ${mainPath}.request.${moduleName}.${className}Request;
@@ -8,8 +10,9 @@ import ${mainPath}.request.${moduleName}.${className}Request;
 import ${package}.dao.${moduleName}.${className}Mapper;
 import ${package}.entity.${moduleName}.${className};
 import ${package}.service.${moduleName}.${className}Service;
+import cn.hutool.core.util.StrUtil;
 
-import java.util.List;
+
 
 
 @Service
@@ -21,10 +24,12 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
      * 列表查询
      *
      * @param query 查询参数
+     * @param page  页数
+     * @param size  每页个数
      * @return
      */
     @Override
-    public List<${className}> list(${className}Request query){
+    public IPage<${className}> list(${className}Request query, Integer page, Integer size){
 
         QueryWrapper<${className}> wrapper = new QueryWrapper<>();
         #foreach ($column in $columns)
@@ -32,8 +37,7 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
         wrapper.like(StrUtil.isNotBlank(query.get${column.attrName}()),"${column.columnName}", query.get${column.attrName}());
         #end
         #end
-
-        return baseMapper.selectList(wrapper);
+        return page(new Page<>(page,size),wrapper);
     }
 
 }

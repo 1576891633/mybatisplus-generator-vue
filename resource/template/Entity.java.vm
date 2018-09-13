@@ -4,6 +4,7 @@ package ${package}.entity.${moduleName};
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.kingyon.core.support.pojo.Entity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ import java.util.Date;
  * @date ${datetime}
  */
 @TableName("${tableName}")
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class ${className} extends Entity<${className}> {
 

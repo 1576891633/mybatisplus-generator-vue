@@ -17,19 +17,14 @@
             </el-form>
         </div>
 
-        <el-table :data="list" s v-loading.body="listLoading" element-loading-text="Loading" border fit
-                  highlight-current-row>
-
-
+        <el-table :data="list" s v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
             #foreach ($column in $columns)
                 <el-table-column label="$column.comments" align="center">
                     <template slot-scope="scope">
-                        {{scope.row.$column.attrnam }}
+                        {{scope.row.$column.attrname }}
                     </template>
                 </el-table-column>
             #end
-
-
 
             <el-table-column label="操作" align="center" width="300px" fixed="right">
                 <template slot-scope="scope">
@@ -71,8 +66,11 @@
                 listQuery: {
                     current: 1,
                     size: 10,
-
-                    username: '',
+                    #foreach ($column in $columns)
+                    #if($column.attrType == "String")
+                        ${column.columnName}:'',
+                    #end
+                #end
 
                 }
             }
@@ -110,6 +108,7 @@
                 }
                 })
             },
+
             delete(id){
                 this.$confirm('确认删除？')
                         .then(_ => {

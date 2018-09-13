@@ -52,15 +52,15 @@ public class GenUtils {
      */
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
-//        templates.add("template/Entity.java.vm");
-//        templates.add("template/Dao.java.vm");
-//        templates.add("template/Dao.xml.vm");
-//        templates.add("template/Service.java.vm");
-//        templates.add("template/ServiceImpl.java.vm");
-//        templates.add("template/Controller.java.vm");
-//        templates.add("template/query.java.vm");
-        templates.add("template/index.vue.vm");
-        
+        templates.add("template/Entity.java.vm");
+        templates.add("template/Dao.java.vm");
+        templates.add("template/Dao.xml.vm");
+        templates.add("template/Service.java.vm");
+        templates.add("template/ServiceImpl.java.vm");
+        templates.add("template/Controller.java.vm");
+        templates.add("template/query.java.vm");
+//        templates.add("template/index.vue.vm");
+
 //        templates.add("template/list.html.vm");
 //        templates.add("template/list.js.vm");
 //        templates.add("template/menu.sql.vm");
@@ -288,6 +288,13 @@ public class GenUtils {
                 return packagePath + "dao" + File.separator + moduleName + File.separator + className + "Mapper.xml";
             }
         }
+        //页面
+        if (template.contains("index.vue.vm")) {
+            
+            return packagePath + "views" + File.separator + moduleName + File.separator + "index.vue";
+            
+        }
+        
         
         if (template.contains("list.html.vm")) {
             return "main" + File.separator + "resources" + File.separator + "templates" + File.separator

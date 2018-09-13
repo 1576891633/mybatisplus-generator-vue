@@ -1,10 +1,10 @@
 package ${package}.service.${moduleName};
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ${package}.entity.${moduleName}.${className};
 import ${mainPath}.request.${moduleName}.${className}Request;
 
-import java.util.List;
 
 
 /**
@@ -21,8 +21,10 @@ public interface ${className}Service extends IService<${className}> {
      * 列表查询
      *
      * @param query 查询参数
+     * @param page  页数
+     * @param size  每页个数
      * @return
      */
-    List<${className}> list(${className}Request query);
+    IPage<${className}> list(${className}Request query, Integer page, Integer size);
 }
 
