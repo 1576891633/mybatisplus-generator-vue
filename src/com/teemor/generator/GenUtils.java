@@ -1,18 +1,4 @@
-/**
- * Copyright 2018 人人开源 http://www.renren.io
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
+
 
 package com.teemor.generator;
 
@@ -59,8 +45,12 @@ public class GenUtils {
         templates.add("template/ServiceImpl.java.vm");
         templates.add("template/Controller.java.vm");
         templates.add("template/query.java.vm");
-//        templates.add("template/index.vue.vm");
-
+        
+        templates.add("template/index.vue.vm");
+        templates.add("template/api.js.vm");
+        templates.add("template/edit.vue.vm");
+        
+//        templates.add("template/test.vue.vm");
 //        templates.add("template/list.html.vm");
 //        templates.add("template/list.js.vm");
 //        templates.add("template/menu.sql.vm");
@@ -92,6 +82,8 @@ public class GenUtils {
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", tableEntity.getTableName());
+        map.put("routerName", tableEntity.getRouterName());
+        
         map.put("comments", tableEntity.getComments());
         map.put("pk", tableEntity.getPk());
         map.put("className", tableEntity.getClassName());
@@ -148,10 +140,13 @@ public class GenUtils {
         boolean hasBigDecimal = false;
         //表名转换成Java类名
         String className = tableToJava(tableEntity.getTableName(), config);
+        String routerName = tableToRouterName(tableEntity.getTableName());
         String excludeTableFiled = config.getString("excludeTableFiled");
+        
         tableEntity.setClassName(className);
         tableEntity.setClassname(StringUtils.uncapitalize(className));
         tableEntity.setColumns(columnEntityList);
+        tableEntity.setRouterName(routerName);
         
         Iterator<ColumnEntity> iterator = columnEntityList.iterator();
         while (iterator.hasNext()) {
@@ -184,6 +179,11 @@ public class GenUtils {
             throw new RuntimeException("没有主键，解析失败");
         }
         return hasBigDecimal;
+    }
+    
+    private static String tableToRouterName(String tableName) {
+        int firstLineIndex = tableName.indexOf("_");
+        return tableName.substring(firstLineIndex + 1);
     }
     
     /**
@@ -246,6 +246,8 @@ public class GenUtils {
         
         String packagePath = "";
         String outPath = getConfig().getString("outPath");
+        
+        String classname = StringUtils.uncapitalize(className);
         boolean xmlToResource = false;
         if (StringUtils.isNotBlank(outPath)) {
             packagePath = outPath + File.separator;
@@ -288,12 +290,29 @@ public class GenUtils {
                 return packagePath + "dao" + File.separator + moduleName + File.separator + className + "Mapper.xml";
             }
         }
-        //页面
+        
+        /*--页面  start--*/
+        
         if (template.contains("index.vue.vm")) {
             
-            return packagePath + "views" + File.separator + moduleName + File.separator + "index.vue";
+            return packagePath + "views" + File.separator + moduleName + File.separator + classname + File.separator + "index.vue";
             
         }
+        
+        if (template.contains("api.js.vm")) {
+            
+            return packagePath + "api" + File.separator + moduleName + File.separator + classname + File.separator + "api.js";
+            
+        }
+        
+        if (template.contains("edit.vue.vm")) {
+            
+            return packagePath + "views" + File.separator + moduleName + File.separator + classname + File.separator + "edit.vue";
+            
+        }
+        
+        
+        /*----页面 end -----  */
         
         
         if (template.contains("list.html.vm")) {

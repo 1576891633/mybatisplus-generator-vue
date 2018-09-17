@@ -27,6 +27,13 @@ public class TableEntity {
     //类名(第一个字母小写)，如：sys_user => sysUser
     private String classname;
     
+    /**
+     * 路由名称
+     */
+    private String routerName;
+    
+    
+    
     public String getTableName() {
         return tableName;
     }
@@ -81,5 +88,13 @@ public class TableEntity {
     
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+    
+    public String getRouterName() {
+        return routerName;
+    }
+    
+    public void setRouterName(String routerName) {
+        this.routerName = routerName;
     }
 }

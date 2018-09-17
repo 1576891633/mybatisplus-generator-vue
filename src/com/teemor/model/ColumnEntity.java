@@ -3,7 +3,7 @@ package com.teemor.model;
 /**
  * 列的属性
  * 
- * @author chenshun
+ * @author lujing
  * @email sunlightcs@gmail.com
  * @date 2016年12月20日 上午12:01:45
  */

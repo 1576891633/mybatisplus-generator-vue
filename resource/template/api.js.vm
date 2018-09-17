@@ -1,41 +1,40 @@
 import request from '@/utils/request'
 
-export function fetchList(query) {
+export function list(query) {
     return request({
-        url: '/article/list',
+        url: '/${moduleName}/${pathName}/list',
         method: 'get',
         params: query
     })
 }
 
-export function fetchArticle(id) {
+export function info(id) {
     return request({
-        url: '/article/detail',
-        method: 'get',
-        params: { id }
+        url: '/${moduleName}/${pathName}/info/' + id,
+        method: 'get'
     })
 }
 
-export function fetchPv(pv) {
+export function batchDelete(ids) {
     return request({
-        url: '/article/pv',
-        method: 'get',
-        params: { pv }
-    })
-}
-
-export function createArticle(data) {
-    return request({
-        url: '/article/create',
+        url: '/${moduleName}/${pathName}/delete',
         method: 'post',
-        data
+        params: { ids: ids }
     })
 }
 
-export function updateArticle(data) {
-    return request({
-        url: '/article/update',
-        method: 'post',
-        data
-    })
+export function saveOrUpdate(data) {
+    if (data.id === null || data.id === '') {
+        return request({
+            url: '/${moduleName}/${pathName}/save',
+            method: 'post',
+            data: data
+        })
+    } else {
+        return request({
+            url: '/${moduleName}/${pathName}/update',
+            method: 'post',
+            data: data
+        })
+    }
 }
