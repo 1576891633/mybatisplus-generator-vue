@@ -24,7 +24,7 @@ export function batchDelete(ids) {
 }
 
 export function saveOrUpdate(data) {
-    if (data.id === null || data.id === '') {
+    if (data.id == null || data.id === '') {
         return request({
             url: '/${moduleName}/${pathName}/save',
             method: 'post',
