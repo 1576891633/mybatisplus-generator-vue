@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import com.kingyon.response.common.PageResponse;
-import ${mainPath}.response.common.RestResponse;
+import com.kingyon.datasource.response.RPage;
+import com.kingyon.core.util.response.R;
 import ${package}.entity.${moduleName}.${className};
 import ${package}.service.${moduleName}.${className}Service;
 import ${mainPath}.request.${moduleName}.${className}Request;
@@ -24,7 +24,7 @@ import ${mainPath}.request.${moduleName}.${className}Request;
  */
 @RestController
 @RequestMapping("${moduleName}/${pathName}")
-@Api(description = "${comments}")
+@Api(tags = "${comments}")
 public class ${className}Controller {
 
     @Autowired
@@ -39,7 +39,7 @@ public class ${className}Controller {
      */
     @ApiOperation("获取列表")
     @GetMapping("/list")
-    public PageResponse<${className}> list(
+    public RPage<${className}> list(
             @ModelAttribute ${className}Request query,
             @RequestParam(defaultValue = "1") @ApiParam("页数") Integer page,
             @RequestParam(defaultValue = "15") @ApiParam("每页个数") Integer size
@@ -47,7 +47,7 @@ public class ${className}Controller {
 
         IPage<${className}> list = ${classname}Service.list(query, page, size);
 
-        return new PageResponse<${className}>().data(list);
+        return new RPage<>(list);
     }
 
 
@@ -59,10 +59,10 @@ public class ${className}Controller {
      */
     @ApiOperation("详情")
     @GetMapping("/info/{${pk.attrname}}")
-    public RestResponse<${className}> info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
+    public R<${className}> info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
         ${className} ${classname} =${classname}Service.getById(${pk.attrname});
 
-        return new RestResponse<${className}>().data(${classname});
+        return new R<${className}>().data(${classname});
     }
 
 
@@ -74,11 +74,11 @@ public class ${className}Controller {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    public RestResponse save(@RequestBody ${className} ${classname}) {
+    public R save(@RequestBody ${className} ${classname}) {
 
             ${classname}Service.save(${classname});
 
-        return new RestResponse().message("保存成功");
+        return new R().msg("保存成功");
     }
 
 
@@ -90,11 +90,11 @@ public class ${className}Controller {
      */
     @ApiOperation("修改")
     @PostMapping("/update")
-    public RestResponse update(@RequestBody ${className} ${classname}) {
+    public R update(@RequestBody ${className} ${classname}) {
 
             ${classname}Service.updateById(${classname});//全部更新
         
-        return new RestResponse().message("修改成功");
+        return new R().msg("保存成功");
     }
 
 
@@ -106,10 +106,10 @@ public class ${className}Controller {
      */
     @ApiOperation("批量删除")
     @PostMapping("/delete")
-    public RestResponse delete(${pk.attrType}[]${pk.attrname}s) {
+    public R delete(${pk.attrType}[]${pk.attrname}s) {
             ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
 
-        return new RestResponse().message("删除成功");
+        return new R().msg("删除成功");
     }
 
 }

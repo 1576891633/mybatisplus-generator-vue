@@ -6,7 +6,7 @@
                 <el-row>
                     <el-col :span="12" :offset="6" class="main-view-container-header">
                         <span>编辑资料</span>
-                        <el-button class="filter-item" style="float: right" @click="$router.go(-1)" plain size="mini"
+                        <el-button class="filter-item" style="float: right" @click="back" plain size="mini"
                                    icon="el-icon-back">返回
                         </el-button>
 
@@ -32,7 +32,7 @@
 
                             <el-form-item>
                                 <el-button type="primary" @click="submitForm('${classname}Info')">保存</el-button>
-                                <el-button @click="$router.go(-1)">取消</el-button>
+                                <el-button @click="back">取消</el-button>
                             </el-form-item>
                         </el-form>
 
@@ -48,9 +48,11 @@
 <script>
 
     import {info, saveOrUpdate} from '@/api/${moduleName}/${classname}/api'
+    import { closeThisView, closeThisViewAndLinkTo } from '@/utils/routerUtils'
 
 
     export default {
+        name: '${className}Edit',
         data() {
             return {
                 cache: true,
@@ -74,6 +76,9 @@
         }
         },
         methods: {
+            back() {
+                closeThisView(this)
+            },
             submitForm(name) {
                 #set($var2 = 'this.$refs[name].validate((valid)')
                 #set($var3 = 'this.$router.push')
@@ -89,12 +94,14 @@
                         saveOrUpdate(this.${classname}Info).then(response => {
                             if (response.status === 20000) {
                                 this.$message('保存成功')
-                                $var3(
-                                { name: '${routerName}_index' }
+                                closeThisViewAndLinkTo(this,
+                                        { name: '${className}Index' }
                                 )
                             }
                         })
-                        loading.close()
+                        setTimeout(() => {
+                            loading.close()
+                        }, 5000)
                     } else {
                         return false
                     }

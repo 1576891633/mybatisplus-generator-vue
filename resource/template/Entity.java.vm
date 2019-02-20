@@ -2,7 +2,7 @@ package ${package}.entity.${moduleName};
 
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.kingyon.core.support.pojo.Entity;
+import com.kingyon.datasource.entity.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -60,7 +60,7 @@
 
 
     export default {
-        name: 'index',
+        name: '${className}Index',
         data() {
             return {
                 list: null,
@@ -78,7 +78,7 @@
                 }
             }
         },
-        created() {
+        activated() {
             this.fetchData()
         },
         methods: {
@@ -86,7 +86,7 @@
                 this.listLoading = true
                 list(this.listQuery).then(response => {
                     this.list = response.data
-                    this.listTotal = response.total
+                    this.listTotal = parseInt(response.total)
                     this.listLoading = false
                 })
             },
@@ -109,7 +109,7 @@
             toEdit(id) {
                 #set($var3 = 'this.$router.push')
                     $var3({
-                name: '${routerName}_edit',
+                name: '${className}Edit',
                 query: {
                     id: id
                 }
