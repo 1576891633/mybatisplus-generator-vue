@@ -44,8 +44,8 @@ public class GeneratorStarter extends JFrame {
     private SQLConfig sqlConfig = new SQLConfig();
     
     
-    private static final String ipStr = "rm-uf6rg3ju6lyk8gm4wlo.mysql.rds.aliyuncs.com";
-    private static final String dataBase = "hosting_edu_dev";
+    private static final String ipStr = "rm-uf6295941rqfelo69xo.mysql.rds.aliyuncs.com";
+    private static final String dataBase = "education_dev";
     private static final String user = "root";
     private static final String pwd = "Root1234";
     private static final String businessName = "";
